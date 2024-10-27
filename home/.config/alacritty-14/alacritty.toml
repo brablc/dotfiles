@@ -1,5 +1,9 @@
 [general]
-import = [ "~/.config/alacritty/theme.toml", "~/.config/alacritty/font.toml", "~/.config/alacritty/font-size.toml" ]
+import = [
+  "~/.config/alacritty/theme.toml",
+  "~/.config/alacritty/font.toml",
+  "~/.config/alacritty/font-size.toml",
+]
 
 [env]
 TERM = "xterm-256color"
@@ -12,3 +16,4 @@ padding.x = 16
 padding.y = 14
 decorations = "None"
 opacity = 0.98
+option_as_alt = "Both"
