@@ -1,1 +1,1 @@
-brew install starship
+brew install starship luarocks
