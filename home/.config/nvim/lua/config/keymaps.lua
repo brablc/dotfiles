@@ -19,3 +19,17 @@ end, { desc = "Step Into" })
 map("n", "<F8>", function()
   require("dap").step_out()
 end, { desc = "Step Out" })
+
+map("n", "gf", function()
+  if vim.bo.filetype == "htmldjango" then
+    local word = vim.fn.expand("<cfile>")
+    local path = vim.fn.findfile(word, vim.fn.getcwd() .. "/*/templates/**," .. vim.fn.getcwd() .. "/*/*/templates/**")
+    if path then
+      vim.notify("Opening: " .. path)
+      vim.cmd("edit " .. path)
+      return
+    end
+    vim.notify("Template not found: " .. word, vim.log.levels.WARN)
+  end
+  vim.cmd("normal! gf")
+end, { desc = "Go to file (with htmldjango)" })
