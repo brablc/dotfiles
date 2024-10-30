@@ -12,3 +12,4 @@ function zpipe() {
   fi
 }
 function zpf() { zellij plugin -- filepicker; }
+function znt() { zellij action new-tab --layout "$1" --cwd "$PWD"; }
