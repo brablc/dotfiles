@@ -4,6 +4,7 @@ return {
     optional = true,
     dependencies = {
       "nvim-neotest/neotest-python",
+      "fredrikaverpil/neotest-golang",
     },
     opts = {
       adapters = {
