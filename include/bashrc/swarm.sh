@@ -41,6 +41,8 @@ function _swarm_shared_swap {
   return 0
 }
 
-complete -F _swarm_services dse-exec dse-logs dse-update
 complete -F _swarm_stacks dst-deploy dst-ps dst-chk-image-updates
+complete -F _swarm_services dse-exec dse-logs dse-update
 complete -F _swarm_shared_swap swarm-shared-swap
+
+alias dse-psr="dse-ps --filter desired-state=running"
