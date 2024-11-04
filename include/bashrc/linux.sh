@@ -8,6 +8,6 @@ alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias mc='source /usr/lib/mc/mc-wrapper.sh -d'
 
-source /usr/share/bash-completion/completions/fzf
 source /usr/share/doc/fzf/examples/key-bindings.bash
 source /usr/share/bash-completion/bash_completion
+source /usr/share/bash-completion/completions/fzf
