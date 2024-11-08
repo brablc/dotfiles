@@ -1,31 +1,84 @@
 # Get editor completions based on the config schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-# format="""$status\
-# $directory\
-# $azure\
-# $kubernetes\
-# $terraform\
-# $git_branch\
-# $git_commit\
-# $git_state\
-# $git_metrics\
-# $git_status\
-# $docker_context\
-# $python\
-# \n$character
-# """
+format = """
+$directory\
+$git_branch\
+$git_status\
+$fill\
+$docker_context\
+$deno\
+$golang\
+$nodejs\
+$opa\
+$python\
+$ruby\
+$terraform\
+$aws\
+$azure\
+$direnv\
+$env_var\
+$custom\
+$sudo\
+$cmd_duration\
+$jobs\
+$battery\
+${custom.proxy}\
+$time\
+$line_break\
+$status\
+$os\
+$container\
+$shell\
+$character"""
 
 # Inserts a blank line between shell prompts
 add_newline = false
 
-# Replace the '❯' symbol in the prompt with '➜'
-[character] # The name of the module we are configuring is 'character'
-success_symbol = '[➜](bold green)' # The 'success_symbol' segment is being set to '➜' with the color 'bold green'
+[directory]
+truncation_length = 9
+truncate_to_repo = true
+truncation_symbol = ''
 
-# Disable the package module, hiding it from the prompt completely
+[azure]
+disabled = false
+format = '[$symbol($subscription)]($style) '
+symbol = '󰠅 '
+style = 'blue bold'
+
+[golang]
+format = 'use [🐹 $version](bold cyan) '
+
+[character]
+success_symbol = "[➜](bold green)"
+
 [package]
 disabled = true
 
-[status]
+[fill]
+symbol = ' '
+
+[time]
 disabled = false
+format = '[\[$time\]]($style) '
+time_format = '%T'
+
+[custom.proxy]
+command = "echo $HTTPS_PROXY"
+when = ''' test $HTTPS_PROXY != "" '''
+style = 'bold fg:red'
+format = ' P:[$output]($style)'
+
+[kubernetes]
+disabled = false
+format = '$context '
+style = "red"
+
+[git_branch]
+style = 'fg:green'
+format = '[$symbol$branch ]($style)'
+symbol = ' '
+
+[git_status]
+style = 'fg:red'
+format = '([$all_status$ahead_behind]($style) )'
