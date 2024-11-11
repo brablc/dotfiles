@@ -18,7 +18,7 @@ shopt -s histappend
 alias hn="history -n"
 alias hdn="export HISTFILE=/dev/null"
 
-eval "$(zoxide init bash)"
+eval "$(zoxide init bash --hook prompt)"
 
 # File system
 alias ll='eza -lh --group-directories-first --icons'
