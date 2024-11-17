@@ -1,6 +1,7 @@
 return {
   {
-    "topaxi/gh-actions.nvim",
+    "brablc/gh-actions.nvim",
+    branch = "patch-1",
     keys = {
       { "<leader>cg", "<cmd>GhActions<cr>", desc = "Open Github Actions" },
     },

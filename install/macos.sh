@@ -1,1 +1,1 @@
-brew install starship luarocks
+brew install starship luarocks yq
