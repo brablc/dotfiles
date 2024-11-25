@@ -37,7 +37,7 @@ $character"""
 add_newline = false
 
 [hostname]
-ssh_only = false
+ssh_only = true
 format = '[$ssh_symbol$hostname]($style):'
 style = 'green'
 
