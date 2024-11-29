@@ -1,0 +1,54 @@
+#!/usr/bin/env bash
+
+_globalprotect_completions() {
+  local cur prev opts
+  COMPREPLY=()
+  cur="${COMP_WORDS[COMP_CWORD]}"
+  prev="${COMP_WORDS[COMP_CWORD - 1]}"
+
+  # Main commands for GlobalProtect
+  opts="connect disconnect status show rediscover prelogin"
+
+  # Show command options
+  show_opts="--status --details"
+
+  # Handle different contexts
+  case "${prev}" in
+  globalprotect | gp)
+    COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+    return 0
+    ;;
+  show)
+    COMPREPLY=($(compgen -W "${show_opts}" -- ${cur}))
+    return 0
+    ;;
+  connect)
+    # Portal completions if you have a known list of portals
+    local portals="portal1.company.com portal2.company.com" # Customize this list
+    COMPREPLY=($(compgen -W "${portals}" -- ${cur}))
+    return 0
+    ;;
+  status)
+    local status_opts="--json --verbose"
+    COMPREPLY=($(compgen -W "${status_opts}" -- ${cur}))
+    return 0
+    ;;
+  *) ;;
+  esac
+
+  # If it starts with -, complete with show options
+  if [[ ${cur} == -* ]]; then
+    COMPREPLY=($(compgen -W "${show_opts}" -- ${cur}))
+    return 0
+  fi
+
+  # If no specific context is matched, return main commands
+  if [[ ${cur} == * ]]; then
+    COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+    return 0
+  fi
+}
+
+# Register the completion function
+complete -F _globalprotect_completions globalprotect
+complete -F _globalprotect_completions gp
