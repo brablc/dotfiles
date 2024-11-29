@@ -1,0 +1,41 @@
+#!/usr/bin/env bash
+
+_tsh_get_commands() {
+  awk -vARG=${1-1} '/^Commands:/,/^$/ {if($1 != "Commands:" && NF > 0) print $ARG}' | sort -u
+}
+
+_tsh_get_flags() {
+  awk '/^Flags:/,/^Commands:/ {if($1 ~ /^-/) print $1}' | tr ',' '\n' | sed -E 's/--\[no-\](\w+)/--no-\1\n--\1/' | sort -u
+}
+
+_tsh_completions() {
+  local cur prev words cword cmd_pos
+  _init_completion || return
+
+  # Find first non-flag argument
+  cmd_pos=1
+  while [[ ${words[cmd_pos]} == -* ]]; do
+    ((cmd_pos++))
+  done
+
+  if [[ "$cur" == -* ]]; then
+    local flags
+    flags=$(tsh help 2>&1 | _tsh_get_flags)
+    COMPREPLY=($(compgen -W "$flags" -- "$cur"))
+    return
+  fi
+
+  if [[ $cmd_pos == $cword ]]; then
+    local commands
+    commands=$(tsh help 2>&1 | _tsh_get_commands)
+    COMPREPLY=($(compgen -W "$commands" -- "$cur"))
+    return
+  elif [[ $((cmd_pos + 1)) == $cword ]]; then
+    local commands
+    commands=$(tsh help "${words[cmd_pos]}" 2>&1 | _tsh_get_commands 2)
+    COMPREPLY=($(compgen -W "$commands" -- "$cur"))
+    return
+  fi
+}
+
+complete -F _tsh_completions tsh
