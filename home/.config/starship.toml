@@ -15,6 +15,7 @@ $opa\
 $python\
 $ruby\
 $terraform\
+$kubernetes\
 $aws\
 $azure\
 $direnv\
