@@ -38,12 +38,16 @@ alias bat='batcat'
 alias lzg='lazygit'
 alias lzd='lazydocker'
 
+function clp() {
+  printf ".%.0s\n" $(seq $LINES)
+}
+
 # Completion
 function nvimw() {
   if [[ -f "$1" ]]; then
-    nvim $1
+    nvim "$1"
   else
-    nvim $(which $1)
+    nvim "$(which "$1")"
   fi
 }
 
