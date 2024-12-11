@@ -7,5 +7,13 @@ vim.filetype.add({
       local base = vim.fn.fnamemodify(path, ":r")
       return vim.filetype.match({ filename = base })
     end,
+    j2 = function(path, bufnr)
+      local base = vim.fn.fnamemodify(path, ":r")
+      return vim.filetype.match({ filename = base })
+    end,
+  },
+  pattern = {
+    [".*logstash.*/.*%.conf"] = "logstash",
+    [".*%.logstash%.conf"] = "logstash",
   },
 })

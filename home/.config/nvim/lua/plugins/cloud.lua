@@ -61,4 +61,9 @@ return {
       return opts
     end,
   },
+  -- Add in lua/plugins/custom.lua
+  {
+    "robbles/logstash.vim",
+    ft = "logstash",
+  },
 }
