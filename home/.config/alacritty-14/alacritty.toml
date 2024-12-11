@@ -5,6 +5,9 @@ import = [
   "~/.config/alacritty/font-size.toml",
 ]
 
+[selection]
+save_to_clipboard = true
+
 [env]
 TERM = "xterm-256color"
 
