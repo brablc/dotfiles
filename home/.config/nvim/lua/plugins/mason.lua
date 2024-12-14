@@ -7,6 +7,7 @@ return {
         -- "awk-language-server",
         "bash-language-server",
         "html-lsp",
+        "phpcbf",
         -- "jq-lsp",
         -- "jq",
         "shellcheck",
