@@ -13,6 +13,7 @@ vim.filetype.add({
     end,
   },
   pattern = {
+    [".*/template/.*/.*%.html"] = "htmldjango",
     [".*logstash.*/.*%.conf"] = "logstash",
     [".*%.logstash%.conf"] = "logstash",
   },
