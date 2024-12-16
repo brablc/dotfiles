@@ -7,9 +7,11 @@ brew install \
   node \
   python@3.10 \
   python@3.11 \
+  cosign \
   fluxcd/tap/flux \
   helm \
   kustomize \
+  oras \
   teleport \
   terraform \
   terramate \
@@ -61,7 +63,14 @@ for COMMAND in globalprotect terraform; do
   ln -s "${HOME}/.local/share/dotfiles/home/.local/share/${BASH_CMPL_DIR}/${COMMAND}" "${HOME}/${BASH_CMPL_DIR}/"
 done
 
-kubectl completion bash >"$HOME/${BASH_CMPL_DIR}/completions/kubectl"
+kubectl completion bash | tee "$HOME/${BASH_CMPL_DIR}"/{kubectl,k} >/dev/null
+
+cat <<_APPEND >>"$HOME/${BASH_CMPL_DIR}"/k
+
+# brablc
+complete -o default -F __start_kubectl k
+_APPEND
+
 tsh --completion-script-bash >"$HOME/${BASH_CMPL_DIR}/tsh"
 
 # Tricks for neovim
