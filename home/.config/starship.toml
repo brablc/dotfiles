@@ -78,8 +78,7 @@ format = ' P:[$output]($style)'
 
 [kubernetes]
 disabled = false
-format = '$context '
-style = "red"
+format = '[$symbol$context](#880000)[(:$namespace)](bold #cc0000) '
 
 [git_branch]
 style = 'fg:green'
