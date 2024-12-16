@@ -1,5 +1,5 @@
 layout {
-    tab name="Tab #1" focus=true hide_floating_panes=true {
+    tab focus=true hide_floating_panes=true {
         pane size=1 borderless=true {
             plugin location="zellij:tab-bar"
         }
