@@ -4,21 +4,26 @@
 
 brew tap hashicorp/tap
 brew install \
+  yq \
   node \
   python@3.10 \
   python@3.11 \
+  avro-tools \
   cosign \
   fluxcd/tap/flux \
   helm \
   kustomize \
   oras \
-  teleport \
   terraform \
   terramate \
   hashicorp/tap/vault \
-  yq
+  vcluster
 
 sudo mkdir -p /etc/apt/keyrings
+
+## teleport
+# - https://purestorage-saas.teleport.sh/web/downloads
+# - https://cdn.teleport.dev/teleport-ent_16.4.9_amd64.deb
 
 ## prepare azure-cli
 curl -sLS https://packages.microsoft.com/keys/microsoft.asc | gpg --dearmor | sudo tee /etc/apt/keyrings/microsoft.gpg >/dev/null
@@ -55,7 +60,7 @@ npm install -g pajv # required by gitops
 
 BASH_CMPL_DIR=.local/share/bash-completion/completions
 
-for COMMAND in conftest flux helm kustomize; do
+for COMMAND in conftest flux helm kustomize vcluster; do
   ln -s "${HOMEBREW_PREFIX:-/home/linuxbrew/.linuxbrew}/etc/bash_completion.d/${COMMAND}" "${HOME}/${BASH_CMPL_DIR}/"
 done
 
