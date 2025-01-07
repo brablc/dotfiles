@@ -1,4 +1,5 @@
 export PATH="$HOME/.local/bin:$PATH"
+export CDPATH="$HOME/Projects"
 
 export LANG="en_US.UTF-8"
 export LC_ALL=en_US.UTF-8
@@ -27,6 +28,8 @@ alias lt='eza --tree --level=2 --long --icons --git'
 alias lta='lt -a'
 alias ff="fzf --preview 'batcat --style=numbers --color=always {}'"
 alias fd='fdfind'
+alias gcd='cd $(git rev-parse --show-toplevel)'
+
 # alias cd='z'
 
 # Tools
@@ -44,7 +47,7 @@ function clp() {
 
 # Completion
 function nvimw() {
-  if [[ -f "$1" ]]; then
+  if [[ -f $1 ]]; then
     nvim "$1"
   else
     nvim "$(which "$1")"
