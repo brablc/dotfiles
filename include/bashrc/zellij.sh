@@ -14,6 +14,10 @@ function zpipe() {
 function zpf() { zellij plugin -- filepicker; }
 function znt() {
   DIR=$(readlink -f ${1-$PWD})
+  if [[ ! -d $DIR ]]; then
+    echo "znt: Dir $DIR does not exist!" >&2
+    return 1
+  fi
   zellij action new-tab --layout "${2-half}" --cwd "$DIR" --name "${DIR##*/}"
 }
 
