@@ -8,24 +8,16 @@ function zpipe() {
   if [ -z "$1" ]; then
     zellij pipe
   else
-    zellij pipe -p $1
+    zellij pipe -p "$1"
   fi
 }
 function zpf() { zellij plugin -- filepicker; }
 function znt() {
-  DIR=$(readlink -f ${1-$PWD})
+  DEF_DIR="$HOME/Projects"
+  DIR=$(readlink -f "${1-$PWD}")
   if [[ ! -d $DIR ]]; then
-    echo "znt: Dir $DIR does not exist!" >&2
-    return 1
+    # shellcheck disable=SC2010
+    DIR="$DEF_DIR/$(ls -1 "$DEF_DIR" | grep -i "$1" | fzf --select-1 --exit-0)"
   fi
   zellij action new-tab --layout "${2-half}" --cwd "$DIR" --name "${DIR##*/}"
 }
-
-function _fzf_subdir_completion() {
-  __fzf_generic_path_completion _fzf_compgen_subdir "" "/" "$@"
-}
-function _fzf_compgen_subdir() {
-  command find -L "$1" -name .git -prune -o -name .hg -prune -o -name .svn -prune -o -type d -maxdepth 1 -a -not -path "$1" -print 2>/dev/null | command sed 's@^\./@@'
-}
-
-complete -o nospace -F _fzf_subdir_completion znt
