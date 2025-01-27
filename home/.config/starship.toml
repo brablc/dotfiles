@@ -2,22 +2,19 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
+((${custom.teleport})($kubernetes)($azure)\n)\
 $hostname\
 $directory\
-$git_branch\
-$git_status\
-$fill\
+$python\
+($git_branch)($git_status)\
+$terraform\
 $docker_context\
 $deno\
 $golang\
 $nodejs\
 $opa\
-$python\
 $ruby\
-$terraform\
-$kubernetes\
 $aws\
-$azure\
 $direnv\
 $env_var\
 $custom\
@@ -25,7 +22,6 @@ $sudo\
 $cmd_duration\
 $jobs\
 $battery\
-${custom.proxy}\
 $time\
 $line_break\
 $status\
@@ -46,12 +42,33 @@ style = 'green'
 truncation_length = 9
 truncate_to_repo = true
 truncation_symbol = ''
+format = " [$path]($style) "
 
 [azure]
 disabled = false
-format = '[$symbol($subscription)]($style) '
+format = '[$symbol$subscription ]($style)'
 symbol = '󰠅 '
 style = 'blue bold'
+
+[custom.teleport]
+command = "echo $(cat $HOME/.tsh/current-profile) $PROXY_PORT $PROXY_SUFFIX"
+when = ''' test $HTTPS_PROXY != "" '''
+style = 'bold fg:red'
+symbol = '⚙ '
+format = '[$symbol$output ]($style)'
+
+[kubernetes]
+disabled = false
+format = '[$symbol$context](#880000)[(:$namespace)](bold #cc0000) '
+
+[git_branch]
+style = 'fg:green'
+format = '[$symbol$branch ]($style)'
+symbol = ' '
+
+[git_status]
+style = 'fg:red'
+format = '([$all_status$ahead_behind]($style) )'
 
 [golang]
 format = 'use [🐹 $version](bold cyan) '
@@ -70,21 +87,3 @@ disabled = false
 format = '[\[$time\]]($style) '
 time_format = '%T'
 
-[custom.proxy]
-command = "echo $HTTPS_PROXY"
-when = ''' test $HTTPS_PROXY != "" '''
-style = 'bold fg:red'
-format = ' P:[$output]($style)'
-
-[kubernetes]
-disabled = false
-format = '[$symbol$context](#880000)[(:$namespace)](bold #cc0000) '
-
-[git_branch]
-style = 'fg:green'
-format = '[$symbol$branch ]($style)'
-symbol = ' '
-
-[git_status]
-style = 'fg:red'
-format = '([$all_status$ahead_behind]($style) )'
