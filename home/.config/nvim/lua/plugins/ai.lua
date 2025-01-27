@@ -27,5 +27,10 @@ return {
       },
     },
   },
-  { "augmentcode/augment.vim" },
+  {
+    "augmentcode/augment.vim",
+    init = function()
+      vim.g.augment_workspace_folders = { "~/Projects" }
+    end,
+  },
 }
