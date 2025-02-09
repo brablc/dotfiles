@@ -48,7 +48,7 @@ format = " [$path]($style) "
 disabled = false
 format = '[$symbol$subscription ]($style)'
 symbol = '󰠅 '
-style = 'blue bold'
+style = 'bold blue'
 
 [custom.teleport]
 command = "echo $(cat $HOME/.tsh/current-profile) $PROXY_PORT $PROXY_SUFFIX"
@@ -59,7 +59,7 @@ format = '[$symbol$output ]($style)'
 
 [kubernetes]
 disabled = false
-format = '[$symbol$context](#880000)[(:$namespace)](bold #cc0000) '
+format = '[$symbol$context](bold yellow)[(:$namespace)](bold fg:red) '
 
 [git_branch]
 style = 'fg:green'

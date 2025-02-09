@@ -7,33 +7,33 @@ _globalprotect_completions() {
   prev="${COMP_WORDS[COMP_CWORD - 1]}"
 
   # Main commands for GlobalProtect
-  opts="connect disconnect status show rediscover prelogin"
+  opts="collect-log connect disconnect import-certificate quit rediscover-network remove-user resubmit-hip set-log show"
 
   # Show command options
-  show_opts="--status --details"
+  show_opts="--status --details --host-state"
 
   # Handle different contexts
   case "${prev}" in
-  globalprotect | gp)
-    COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
-    return 0
-    ;;
-  show)
-    COMPREPLY=($(compgen -W "${show_opts}" -- ${cur}))
-    return 0
-    ;;
-  connect)
-    # Portal completions if you have a known list of portals
-    local portals="portal1.company.com portal2.company.com" # Customize this list
-    COMPREPLY=($(compgen -W "${portals}" -- ${cur}))
-    return 0
-    ;;
-  status)
-    local status_opts="--json --verbose"
-    COMPREPLY=($(compgen -W "${status_opts}" -- ${cur}))
-    return 0
-    ;;
-  *) ;;
+    globalprotect | gp)
+      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
+      return 0
+      ;;
+    show)
+      COMPREPLY=($(compgen -W "${show_opts}" -- ${cur}))
+      return 0
+      ;;
+    connect)
+      # Portal completions if you have a known list of portals
+      local portals="portal1.company.com portal2.company.com" # Customize this list
+      COMPREPLY=($(compgen -W "${portals}" -- ${cur}))
+      return 0
+      ;;
+    status)
+      local status_opts="--json --verbose"
+      COMPREPLY=($(compgen -W "${status_opts}" -- ${cur}))
+      return 0
+      ;;
+    *) ;;
   esac
 
   # If it starts with -, complete with show options

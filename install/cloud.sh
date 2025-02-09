@@ -8,7 +8,7 @@ brew install \
   node \
   python@3.10 \
   python@3.11 \
-  avro-tools \
+  python@3.12 \
   cosign \
   fluxcd/tap/flux \
   helm \
@@ -42,20 +42,24 @@ Signed-by: /etc/apt/keyrings/microsoft.gpg" | sudo tee /etc/apt/sources.list.d/a
 curl -fsSLO https://github.com/Azure/azure-dev/releases/download/azure-dev-cli_1.11.1/azd_1.11.1_amd64.deb
 sudo apt-get install ./azd_1.11.1_amd64.deb -y
 
+## prepare azcopy
+curl -sLSO https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb
+sudo dpkg -i ./packages-microsoft-prod.deb
+rm -f ./packages-microsoft-prod.deb
+
 # prepare kubectl
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 sudo chmod 644 /etc/apt/keyrings/kubernetes-apt-keyring.gpg # allow unprivileged APT programs to read this keyring
 echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.31/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list # helps tools such as command-not-found to work correctly
 
-# terraform
+# prepare terraform
 wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
-sudo apt update && sudo apt install terraform
 
 # install
 sudo apt-get update
-sudo apt-get install azure-cli kubectl expect
+sudo apt-get install azure-cli azcopy kubectl expect terraform
 
 ## kubelogin
 KUBELOGIN_ZIP=/tmp/kubelogin.zip
@@ -87,12 +91,3 @@ complete -o default -F __start_kubectl k
 _APPEND
 
 tsh --completion-script-bash >"$HOME/${BASH_CMPL_DIR}/tsh"
-
-# Tricks for neovim
-
-python3.12 -m venv "$HOME/.local/share/nvim-venv"
-source "$HOME/.local/share/nvim-venv/bin/activate"
-pip install tree-sitter-make==0.0.1
-pip install lsp-tree-sitter
-pip install autotools-language-server==0.0.21
-deactivate
