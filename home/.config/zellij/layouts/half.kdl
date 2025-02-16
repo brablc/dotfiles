@@ -4,11 +4,11 @@ layout {
             plugin location="zellij:tab-bar"
         }
         pane {
-            pane focus=true size="70%" {
+            pane size="70%" {
                 command "nvim"
                 args "."
             }
-            pane size="30%"
+            pane focus=true size="30%"
         }
         pane size=2 borderless=true {
             plugin location="zellij:status-bar"
