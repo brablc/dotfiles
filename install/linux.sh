@@ -17,6 +17,11 @@ pip install lsp-tree-sitter
 pip install autotools-language-server==0.0.21
 deactivate
 
+ln -fs "$(which python3)" ~/.local/bin/python
+pipx install poetry
+poetry self add poetry-git-version-plugin
+poetry completions bash >~/.local/share/bash-completion/completions/poetry
+
 # disable IPv6
 echo -e "\n# Disable IPv6\nnet.ipv6.conf.all.disable_ipv6=1\nnet.ipv6.conf.default.disable_ipv6=1\nnet.ipv6.conf.lo.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
 sudo sysctl -p
