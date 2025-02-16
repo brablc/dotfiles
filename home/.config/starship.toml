@@ -2,7 +2,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-((${custom.teleport})($kubernetes)($azure)\n)\
+((${custom.teleport} )($kubernetes )($azure)\n)\
 $hostname\
 $directory\
 $python\
@@ -51,7 +51,7 @@ symbol = '󰠅 '
 style = 'bold blue'
 
 [custom.teleport]
-command = "echo $(cat $HOME/.tsh/current-profile) $PROXY_PORT $PROXY_SUFFIX"
+command = "echo -n $TSH_PROFILE $PROXY_PORT"
 when = ''' test $HTTPS_PROXY != "" '''
 style = 'bold fg:red'
 symbol = '⚙ '
@@ -59,7 +59,7 @@ format = '[$symbol$output ]($style)'
 
 [kubernetes]
 disabled = false
-format = '[$symbol$context](bold yellow)[(:$namespace)](bold fg:red) '
+format = '[$symbol$context](bold yellow)[(:$namespace)](fg:#f5e042)'
 
 [git_branch]
 style = 'fg:green'
@@ -68,10 +68,11 @@ symbol = ' '
 
 [git_status]
 style = 'fg:red'
-format = '([$all_status$ahead_behind]($style) )'
+format = '[$all_status$ahead_behind]($style)'
 
 [golang]
-format = 'use [🐹 $version](bold cyan) '
+format = '[$symbol$version](bold cyan)'
+symbol = '🐹 '
 
 [character]
 success_symbol = "[➜](bold green)"
@@ -86,4 +87,5 @@ symbol = ' '
 disabled = false
 format = '[\[$time\]]($style) '
 time_format = '%T'
+style = 'fg:#666666'
 
