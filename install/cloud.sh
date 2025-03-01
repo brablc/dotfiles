@@ -91,3 +91,10 @@ complete -o default -F __start_kubectl k
 _APPEND
 
 tsh --completion-script-bash >"$HOME/${BASH_CMPL_DIR}/tsh"
+
+# Docker domain name resolution
+HOST_DOCKER_INTERNAL=$(ip -j addr show docker0 | jq -r .[0].addr_info.[0].local)
+echo -e "[Resolve]\nDNSStubListenerExtra=$HOST_DOCKER_INTERNAL" | sudo tee /etc/systemd/resolved.conf.d/docker.conf
+sudo systemctl restart systemd-resolved.service
+jq --arg ip "$HOST_DOCKER_INTERNAL" '. + {dns:[$ip]}' /etc/docker/daemon.json | sponge | sudo tee /etc/docker/daemon.json
+sudo systemctl restart docker.service
