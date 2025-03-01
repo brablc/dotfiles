@@ -61,6 +61,15 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashi
 sudo apt-get update
 sudo apt-get install azure-cli azcopy kubectl expect terraform
 
+# install kubectl-neat
+brew instal krew
+kubectl krew install neat
+ln -s ~/.krew/bin/kubectl-neat ~/.local/bin/
+
+# install certbot
+pipx install certbot
+pipx inject certbot certbot-dns-azure
+
 ## kubelogin
 KUBELOGIN_ZIP=/tmp/kubelogin.zip
 curl -Ls https://github.com/Azure/kubelogin/releases/download/v0.1.5/kubelogin-linux-amd64.zip -o "$KUBELOGIN_ZIP"
