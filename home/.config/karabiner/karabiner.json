@@ -104,6 +104,7 @@
                     },
                     {
                         "description": "Swap left cmd with left option",
+                        "enabled": false,
                         "manipulators": [
                             {
                                 "from": {
