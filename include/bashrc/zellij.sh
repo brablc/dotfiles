@@ -19,5 +19,13 @@ function znt() {
     # shellcheck disable=SC2010
     DIR="$DEF_DIR/$(ls -1 "$DEF_DIR" | grep -i "$1" | fzf --select-1 --exit-0)"
   fi
-  zellij action new-tab --layout "${2-half}" --cwd "$DIR" --name "${DIR##*/}"
+  zellij action new-tab --layout default --cwd "$DIR" --name "${DIR##*/}"
+}
+function znp() {
+  local direction="${1:-up}"
+  zellij action new-pane --direction "$direction" -c --cwd . -- $SHELL
+  sleep 0.1
+  seq 20 | xargs -I% zellij action resize - "$direction"
+  sleep 0.1
+  seq 4 | xargs -I% zellij action resize + "$direction"
 }
