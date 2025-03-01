@@ -51,7 +51,7 @@ symbol = '󰠅 '
 style = 'bold blue'
 
 [custom.teleport]
-command = "echo -n $TSH_PROFILE $PROXY_PORT"
+command = "echo -n $TSH_PROFILE $HTTPS_PROXY_PORT"
 when = ''' test $HTTPS_PROXY != "" '''
 style = 'bold fg:red'
 symbol = '⚙ '
