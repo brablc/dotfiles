@@ -6,7 +6,7 @@ format = """
 $hostname\
 $directory\
 $python\
-($git_branch)($git_status)\
+($git_branch)($git_status )\
 $terraform\
 $docker_context\
 $deno\
@@ -77,6 +77,12 @@ symbol = '🐹 '
 [character]
 success_symbol = "[➜](bold green)"
 
+[python]
+format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'
+
+[nodejs]
+format = '[$symbol($version )]($style)'
+
 [package]
 disabled = true
 
@@ -88,4 +94,3 @@ disabled = false
 format = '[\[$time\]]($style) '
 time_format = '%T'
 style = 'fg:#666666'
-
