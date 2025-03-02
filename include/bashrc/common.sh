@@ -9,6 +9,9 @@ export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 export VIEWER="view"
 
+# If not running interactively, don't do anything slow
+[ -z "$PS1" ] && return
+
 export HISTTIMEFORMAT="%Y-%m-%d %T "
 export HISTFILESIZE=
 export HISTSIZE=

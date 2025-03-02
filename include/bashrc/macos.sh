@@ -10,6 +10,9 @@ export OBJC_DISABLE_INITIALIZE_FORK_SAFETY=YES # https://stackoverflow.com/quest
 
 export DYLD_FALLBACK_LIBRARY_PATH=$(brew --prefix libpq)/lib:$DYLD_FALLBACK_LIBRARY_PATH
 
+# If not running interactively, don't do anything slow
+[ -z "$PS1" ] && return
+
 # Source system-wide bash completion
 # brew install bash bash-completion@2 (https://itnext.io/upgrading-bash-on-macos-7138bd1066ba)
 # curl -s -L https://github.com/docker/cli/raw/master/contrib/completion/bash/docker > /usr/local/etc/bash_completion.d/docker

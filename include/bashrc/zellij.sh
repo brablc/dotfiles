@@ -13,19 +13,14 @@ function zpipe() {
 }
 function zpf() { zellij plugin -- filepicker; }
 function znt() {
-  DEF_DIR="$HOME/Projects"
-  DIR=$(readlink -f "${1-$PWD}")
-  if [[ ! -d $DIR ]]; then
-    # shellcheck disable=SC2010
-    DIR="$DEF_DIR/$(ls -1 "$DEF_DIR" | grep -i "$1" | fzf --select-1 --exit-0)"
+  local dir=${1:-$PWD}
+  local project_dir="$HOME/Projects"
+  if [[ ! -d $dir ]]; then
+    dir="$project_dir/$1"
+    if [[ ! -d $dir ]]; then
+      # shellcheck disable=SC2010
+      dir="$project_dir/$(ls -1 "$project_dir" | grep -i "$1" | fzf --select-1 --exit-0)"
+    fi
   fi
-  zellij action new-tab --layout default --cwd "$DIR" --name "${DIR##*/}"
-}
-function znp() {
-  local direction="${1:-up}"
-  zellij action new-pane --direction "$direction" -c --cwd . -- $SHELL
-  sleep 0.1
-  seq 20 | xargs -I% zellij action resize - "$direction"
-  sleep 0.1
-  seq 4 | xargs -I% zellij action resize + "$direction"
+  zellij action new-tab --layout default --cwd "$dir" --name "${dir##*/}"
 }
