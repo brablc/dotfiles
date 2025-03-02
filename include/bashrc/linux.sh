@@ -4,6 +4,9 @@ if [ -d /home/linuxbrew ]; then
   eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
+# If not running interactively, don't do anything slow
+[ -z "$PS1" ] && return
+
 alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias mc='source /usr/lib/mc/mc-wrapper.sh -d'

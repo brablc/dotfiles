@@ -22,5 +22,5 @@ function znt() {
       dir="$project_dir/$(ls -1 "$project_dir" | grep -i "$1" | fzf --select-1 --exit-0)"
     fi
   fi
-  zellij action new-tab --layout default --cwd "$dir" --name "${dir##*/}"
+  zellij action new-tab --layout split-tab --cwd "$dir" --name "${dir##*/}"
 }
