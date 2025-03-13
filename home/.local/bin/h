@@ -1,8 +1,0 @@
-#!/bin/bash
-
-if [ ! -x /usr/local/bin/h.sh ]; then
-  echo "Download: curl -s -L https://raw.githubusercontent.com/paoloantinori/hhighlighter/master/h.sh > /usr/local/bin/h.sh && chmod 755 $_"
-  exit 1
-fi
-source /dev/stdin <<<"$(sed -e 's/h()/hhighlighter()/' /usr/local/bin/h.sh)"
-hhighlighter $*s

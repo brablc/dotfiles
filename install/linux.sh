@@ -6,7 +6,9 @@ sudo apt install -y fzf ripgrep bat eza zoxide plocate btop apache2-utils fd-fin
 
 # gh extension install dlvhdr/gh-dash
 
-ln -s ${HOMEBREW_PREFIX:-/home/linuxbrew/.linuxbrew}/etc/bash_completion.d/brew ${HOME}/.local/share/bash-completion/completions/
+ln -s ${HOMEBREW_PREFIX:-/home/linuxbrew/.linuxbrew}/etc/bash_completion.d/brew "$HOME/.local/share/bash-completion/completions/"
+
+install -m 755 /dev/stdin "$HOME/.local/share/bash-completion/completions/h" < <(curl -s -L https://raw.githubusercontent.com/paoloantinori/hhighlighter/master/h.sh)
 
 # Tricks for neovim
 
