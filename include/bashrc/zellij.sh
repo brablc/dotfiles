@@ -17,13 +17,17 @@ function znt() {
   local project_dir="$HOME/Projects"
   local select=$dir
   if [[ ! -d $dir ]]; then
-    # shellcheck disable=SC2010
-    select=$(ls -1 "$project_dir" | grep -i "$1" | fzf --select-1 --exit-0)
-    if [[ -z $select ]]; then
-      echo "No such dir/project: $dir"
-      return
+    if [[ -d $project_dir/$dir ]]; then
+      dir="$project_dir/$dir"
+    else
+      # shellcheck disable=SC2010
+      select=$(ls -1 "$project_dir" | grep -i "$1" | fzf --select-1 --exit-0)
+      if [[ -z $select ]]; then
+        echo "No such dir/project: $dir"
+        return
+      fi
+      dir="$project_dir/$select"
     fi
-    dir="$project_dir/$select"
   fi
-  zellij action new-tab --layout split-tab --cwd "$dir" --name "${dir##*/}"
+  zellij action new-tab --layout split-tab --cwd "$dir" --name "${dir##*/Projects/}"
 }
