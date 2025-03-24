@@ -50,7 +50,6 @@ keybinds clear-defaults=true {
         bind "n" { NewTab; SwitchToMode "locked"; }
         bind "r" { SwitchToMode "renametab"; TabNameInput 0; }
         bind "s" { ToggleActiveSyncTab; SwitchToMode "locked"; }
-        bind "t" { SwitchToMode "normal"; }
         bind "x" { CloseTab; SwitchToMode "locked"; }
         bind "tab" { ToggleTab; }
     }
@@ -70,7 +69,6 @@ keybinds clear-defaults=true {
         bind "j" { Resize "Increase down"; }
         bind "k" { Resize "Increase up"; }
         bind "l" { Resize "Increase right"; }
-        bind "r" { SwitchToMode "normal"; }
     }
     move {
         bind "left" { MovePane "left"; }
@@ -81,7 +79,6 @@ keybinds clear-defaults=true {
         bind "j" { MovePane "down"; }
         bind "k" { MovePane "up"; }
         bind "l" { MovePane "right"; }
-        bind "m" { SwitchToMode "normal"; }
         bind "n" { MovePane; }
         bind "p" { MovePaneBackwards; }
         bind "tab" { MovePane; }
@@ -112,7 +109,6 @@ keybinds clear-defaults=true {
             }
             SwitchToMode "locked"
         }
-        bind "o" { SwitchToMode "locked"; }
         bind "p" {
             LaunchOrFocusPlugin "plugin-manager" {
                 floating true
@@ -152,25 +148,15 @@ keybinds clear-defaults=true {
         bind "Alt o" { MoveTab "right"; }
         bind "Ctrl q" { Quit; }
     }
-    shared_except "locked" "search" "session" "tmux" {
-        bind "o" { SwitchToMode "session"; }
-    }
     shared_except "locked" "scroll" "search" "tmux" {
         bind "Ctrl b" { SwitchToMode "tmux"; }
     }
-    shared_except "locked" "tab" {
-        bind "t" { SwitchToMode "tab"; }
-    }
-    shared_except "locked" "tab" "scroll" {
-        bind "s" { SwitchToMode "scroll"; }
-    }
-    shared_except "locked" "pane" "search" "session" "move" "tmux" {
+    shared_except "locked" "resize" "pane" "tab" "search" "session" "move" "tmux" {
         bind "p" { SwitchToMode "pane"; }
-    }
-    shared_except "locked" "resize" "pane" "tab" "search" "move" "tmux" {
+        bind "t" { SwitchToMode "tab"; }
+        bind "o" { SwitchToMode "session"; }
+        bind "s" { SwitchToMode "scroll"; }
         bind "n" { SwitchToMode "resize"; }
-    }
-    shared_among "normal" "entersearch" "renametab" "renamepane" "session" "prompt" {
         bind "h" { SwitchToMode "move"; }
     }
     shared_except "normal" "locked" "entersearch" {
