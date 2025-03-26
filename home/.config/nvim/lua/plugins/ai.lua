@@ -30,7 +30,7 @@ return {
   {
     "augmentcode/augment.vim",
     init = function()
-      vim.g.augment_workspace_folders = { "~/Projects" }
+      vim.g.augment_workspace_folders = { vim.fn.expand("~/Projects") }
       vim.g.augment_disable_tab_mapping = true
       vim.keymap.set("n", "<leader>al", function()
         vim.cmd("Augment chat " .. vim.api.nvim_get_current_line())
