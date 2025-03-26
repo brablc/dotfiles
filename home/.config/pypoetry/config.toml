@@ -1,0 +1,11 @@
+[repositories.pypi]
+url = "https://pypi.org/simple"
+
+[virtualenvs]
+in-project = true
+
+[warnings]
+export = false
+
+[keyring]
+enabled = false
