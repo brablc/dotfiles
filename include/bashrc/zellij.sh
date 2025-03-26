@@ -13,11 +13,11 @@ function zpipe() {
 }
 function zpf() { zellij plugin -- filepicker; }
 function znt() {
-  local dir=${1:-$PWD}
+  local dir=$1
   local project_dir="$HOME/Projects"
   local select=$dir
-  if [[ ! -d $dir ]]; then
-    if [[ -d $project_dir/$dir ]]; then
+  if [[ -z $dir || ! -d $dir ]]; then
+    if [[ -n $dir && -d $project_dir/$dir ]]; then
       dir="$project_dir/$dir"
     else
       # shellcheck disable=SC2010
