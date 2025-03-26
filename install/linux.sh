@@ -1,6 +1,20 @@
 echo "Install starship manually: curl -sS https://starship.rs/install.sh | sh"
 
-sudo apt install -y fzf ripgrep bat eza zoxide plocate btop apache2-utils fd-find tldr gh yq apt-file
+sudo apt install -y \
+  apache2-utils \
+  apt-file \
+  bat \
+  btop \
+  eza \
+  fd-find \
+  fzf \
+  gh \
+  pipx \
+  plocate \
+  ripgrep \
+  tldr \
+  yq \
+  zoxide
 
 curl -Ls https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz | tar xzf - && mv -v zellij ~/.local/bin
 zellij setup --generate-completion bash >~/.local/share/bash-completion/completions/zellij
