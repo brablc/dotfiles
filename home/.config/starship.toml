@@ -53,7 +53,7 @@ style = 'bold blue'
 [custom.teleport]
 command = "echo -n $TSH_PROFILE $HTTPS_PROXY_PORT"
 when = ''' test $HTTPS_PROXY != "" '''
-style = 'bold fg:red'
+style = 'fg:#eb34e8'
 symbol = '⚙ '
 format = '[$symbol$output ]($style)'
 
