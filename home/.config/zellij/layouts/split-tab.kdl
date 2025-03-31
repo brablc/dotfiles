@@ -1,7 +1,7 @@
 layout {
     tab focus=true hide_floating_panes=true {
         pane size=1 borderless=true {
-            plugin location="zellij:tab-bar"
+            plugin location="tab-bar"
         }
         pane {
             pane size="70%" close_on_exit=true {
@@ -13,8 +13,8 @@ layout {
                 args "-i"
             }
         }
-        pane size=2 borderless=true {
-            plugin location="zellij:status-bar"
+        pane size=1 borderless=true {
+            plugin location="status-bar"
         }
     }
 }
