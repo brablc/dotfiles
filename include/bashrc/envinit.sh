@@ -6,11 +6,11 @@ function envinit() {
 
   if [[ -f $ENVINIT_SOURCE_FILE ]]; then
     source "$ENVINIT_SOURCE_FILE"
-  elif [[ -f ./env_setup.sh ]]; then
+  elif [[ -f env_setup.sh ]]; then
     ENVINIT_DIR=$PWD
     source ./env_setup.sh
-  elif [[ -f ./.venv ]]; then
-    source ./.venv/bin/activate
+  elif [[ -d .venv ]]; then
+    source .venv/bin/activate
   fi
 }
 
