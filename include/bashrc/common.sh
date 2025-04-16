@@ -1,5 +1,4 @@
 export PATH="$HOME/.local/bin:$PATH"
-export CDPATH=".:$HOME/Projects:$HOME/Projects/krypton-observability"
 
 export LANG="en_US.UTF-8"
 export LC_ALL=en_US.UTF-8
