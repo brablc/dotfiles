@@ -43,6 +43,11 @@ alias bat='batcat'
 alias lzg='lazygit'
 alias lzd='lazydocker'
 
+function h() {
+  source ~/.local/bin/h.sh
+  alias h="hhighlighter"
+}
+
 function clp() {
   printf ".%.0s\n" $(seq $LINES)
 }
