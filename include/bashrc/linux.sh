@@ -12,5 +12,6 @@ alias pbpaste='xclip -selection clipboard -o'
 alias mc='source /usr/lib/mc/mc-wrapper.sh -d'
 
 source /usr/share/doc/fzf/examples/key-bindings.bash
+# this would search in (${BASH_COMPLETION_USER_DIR:-${XDG_DATA_HOME:-$HOME/.local/share}/bash-completion}/completions)
 source /usr/share/bash-completion/bash_completion
 source /usr/share/bash-completion/completions/fzf
