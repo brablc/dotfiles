@@ -13,10 +13,14 @@ function zpipe() {
 }
 function zpf() { zellij plugin -- filepicker; }
 function znt() {
+  if ((!$#)); then
+    zellij action new-tab --layout default --cwd ~
+    return
+  fi
   local dir=$1
-  local project_dir="$HOME/Projects"
-  local select=$dir
-  if [[ -z $dir || ! -d $dir ]]; then
+  if [[ ! -d $dir ]]; then
+    local select=$dir
+    local project_dir="$HOME/Projects"
     if [[ -n $dir && -d $project_dir/$dir ]]; then
       dir="$project_dir/$dir"
     else
