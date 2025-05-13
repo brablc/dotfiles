@@ -45,7 +45,7 @@ alias lzd='lazydocker'
 
 function h() {
   source ~/.local/bin/h.sh
-  alias h="hhighlighter"
+  hhighlighter "$@"
 }
 
 function clp() {
