@@ -147,9 +147,9 @@ _make()
         # recognise that possible completions are only going to be displayed
         # so only the base name is shown
         local mode=--
-        if ((COMP_TYPE != 9)); then
-            mode=-d # display-only mode
-        fi
+        # if ((COMP_TYPE != 9)); then
+        #     mode=-d # display-only mode
+        # fi
 
         local IFS=$' \t\n' script=$(_make_target_extract_script $mode "$cur")
         COMPREPLY=($(LC_ALL=C \
