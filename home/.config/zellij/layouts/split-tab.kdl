@@ -6,7 +6,7 @@ layout {
         pane {
             pane size="70%" close_on_exit=true {
                 command "bash"
-                args "-ic" "nvim ."
+                args "-ic" "envinit; nvim ."
             }
             pane focus=true close_on_exit=true size="30%" {
                 command "bash"
