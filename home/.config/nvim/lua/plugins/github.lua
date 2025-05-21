@@ -1,12 +1,12 @@
 return {
   {
-    "brablc/gh-actions.nvim",
+    "topaxi/pipeline.nvim",
     keys = {
-      { "<leader>ga", "<cmd>GhActions<cr>", desc = "Open Github Actions" },
+      { "<leader>ci", "<cmd>Pipeline<cr>", desc = "Open pipeline.nvim" },
     },
     -- optional, you can also install and use `yq` instead.
     build = "yq",
-    ---@type GhActionsConfig
+    ---@type pipeline.Config
     opts = {},
   },
 }
