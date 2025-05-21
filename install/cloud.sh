@@ -59,7 +59,7 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashi
 
 # install
 sudo apt-get update
-sudo apt-get install azure-cli azcopy kubectl expect terraform packer
+sudo apt-get install azure-cli azcopy kubectl expect terraform packer powershell
 
 # install kubectl-neat
 brew instal krew
