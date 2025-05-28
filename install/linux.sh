@@ -36,3 +36,7 @@ ln -fs "$(which python3)" ~/.local/bin/python
 # disable IPv6
 # echo -e "\n# Disable IPv6\nnet.ipv6.conf.all.disable_ipv6=1\nnet.ipv6.conf.default.disable_ipv6=1\nnet.ipv6.conf.lo.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
 # sudo sysctl -p
+
+# Inotify
+# echo -e "\n# Inotify\nfs.inotify.max_user_instances=1024\nfs.inotify.max_user_watches=524288\nfs.inotify.max_queued_events=32768\n" | sudo tee -a /etc/sysctl.conf
+# sudo sysctl -p
