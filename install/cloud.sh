@@ -9,13 +9,14 @@ brew install \
   python@3.10 \
   python@3.11 \
   python@3.12 \
+  conftest \
   cosign \
   fluxcd/tap/flux \
   helm \
   kustomize \
   oras \
   terraform-docs \
-  terramate \
+  tflint \
   hashicorp/tap/vault \
   vcluster
 
@@ -59,7 +60,15 @@ echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashi
 
 # install
 sudo apt-get update
-sudo apt-get install azure-cli azcopy kubectl expect terraform packer powershell
+sudo apt-get install azure-cli azcopy kubectl expect terraform=1.10.4-\* packer powershell
+
+# install terramate
+TERRAMATE_VERSION="0.11.4"
+TERRAMATE_ARCHIVE="terramate_${TERRAMATE_VERSION}_linux_x86_64.tar.gz"
+curl -L "https://github.com/terramate-io/terramate/releases/download/v${TERRAMATE_VERSION}/${TERRAMATE_ARCHIVE}" | tar xz -C "$HOME/.local/bin" terramate
+
+# configure tflint
+tflint --init
 
 # install kubectl-neat
 brew instal krew
