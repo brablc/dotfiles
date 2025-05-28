@@ -4,9 +4,6 @@
 
 local map = vim.keymap.set
 
-map("n", "<S-tab>", "<cmd>bprev<cr>", { desc = "Prev Buffer" })
-map("n", "<tab>", "<cmd>bnext<cr>", { desc = "Next Buffer" })
-
 map("n", "<F5>", function()
   require("dap").continue()
 end, { desc = "Continue" })

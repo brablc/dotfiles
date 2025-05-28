@@ -15,14 +15,4 @@ return {
       },
     },
   },
-  {
-    "NvChad/nvim-colorizer.lua",
-    event = "VeryLazy",
-    opts = {
-      filetypes = { "css", "html", "htmldjango" },
-      user_default_options = {
-        tailwind = true,
-      },
-    },
-  },
 }
