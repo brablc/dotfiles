@@ -14,7 +14,7 @@ function zpipe() {
 function zpf() { zellij plugin -- filepicker; }
 function znt() {
   if ((!$#)); then
-    zellij action new-tab --layout default --cwd ~
+    zellij action new-tab --layout default --cwd "$HOME"
     return
   fi
   local dir=$1
@@ -33,5 +33,5 @@ function znt() {
       dir="$project_dir/$select"
     fi
   fi
-  zellij action new-tab --layout split-tab --cwd "$dir" --name "${dir##*/Projects/}"
+  zellij action new-tab --layout envinit --cwd "$dir" --name "${dir##*/Projects/}"
 }
