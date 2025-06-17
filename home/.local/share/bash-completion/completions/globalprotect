@@ -1,52 +1,31 @@
 #!/usr/bin/env bash
 
+# shellcheck disable=SC2086,SC2207
+
 _globalprotect_completions() {
   local cur prev opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
   prev="${COMP_WORDS[COMP_CWORD - 1]}"
-
-  # Main commands for GlobalProtect
-  opts="collect-log connect disconnect import-certificate quit rediscover-network remove-user resubmit-hip set-log show"
-
-  # Show command options
-  show_opts="--status --details --host-state"
+  opts=()
 
   # Handle different contexts
   case "${prev}" in
     globalprotect | gp)
-      COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
-      return 0
+      opts=(collect-log connect disconnect import-certificate quit rediscover-network remove-user resubmit-hip set-log show status)
       ;;
     show)
-      COMPREPLY=($(compgen -W "${show_opts}" -- ${cur}))
-      return 0
+      opts=(--details --error --help --host-state --manual-gateway --notification --ssl-only --statistics --status --version --welcome-page)
       ;;
     connect)
-      # Portal completions if you have a known list of portals
-      local portals="portal1.company.com portal2.company.com" # Customize this list
-      COMPREPLY=($(compgen -W "${portals}" -- ${cur}))
-      return 0
+      opts=(--portal --gateway --username)
       ;;
     status)
-      local status_opts="--json --verbose"
-      COMPREPLY=($(compgen -W "${status_opts}" -- ${cur}))
-      return 0
+      opts=(--json --verbose)
       ;;
-    *) ;;
   esac
 
-  # If it starts with -, complete with show options
-  if [[ ${cur} == -* ]]; then
-    COMPREPLY=($(compgen -W "${show_opts}" -- ${cur}))
-    return 0
-  fi
-
-  # If no specific context is matched, return main commands
-  if [[ ${cur} == * ]]; then
-    COMPREPLY=($(compgen -W "${opts}" -- ${cur}))
-    return 0
-  fi
+  COMPREPLY=($(compgen -W "${opts[*]}" -- ${cur}))
 }
 
 # Register the completion function

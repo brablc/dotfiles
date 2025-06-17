@@ -100,6 +100,8 @@ for COMMAND in globalprotect terraform; do
   ln -s "${HOME}/.local/share/dotfiles/home/.local/share/${BASH_CMPL_DIR}/${COMMAND}" "${HOME}/${BASH_CMPL_DIR}/"
 done
 
+ln -s "${HOME}/${BASH_CMPL_DIR}/globalprotect" "${HOME}/${BASH_CMPL_DIR}/gp"
+
 kubectl completion bash | tee "$HOME/${BASH_CMPL_DIR}"/{kubectl,k} >/dev/null
 
 cat <<_APPEND >>"$HOME/${BASH_CMPL_DIR}"/k
