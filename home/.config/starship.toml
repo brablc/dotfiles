@@ -2,7 +2,6 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-((${custom.ke})($azure)($kubernetes)(${custom.https_proxy} )\n)\
 $hostname\
 $directory\
 $python\
@@ -24,6 +23,7 @@ $jobs\
 $battery\
 $time\
 $line_break\
+((${custom.ke})($azure)($kubernetes)(${custom.https_proxy})\n)\
 $status\
 $os\
 $container\
