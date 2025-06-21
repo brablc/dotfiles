@@ -3,7 +3,7 @@
 if [ -d /home/linuxbrew ]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
   export HOMEBREW_NO_INSTALL_CLEANUP=1
-  eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
+  test -v HOMEBREW_PREFIX || eval "$(/home/linuxbrew/.linuxbrew/bin/brew shellenv)"
 fi
 
 # If not running interactively, don't do anything slow
