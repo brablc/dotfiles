@@ -58,12 +58,15 @@ sudo chmod 644 /etc/apt/sources.list.d/kubernetes.list # helps tools such as com
 wget -O - https://apt.releases.hashicorp.com/gpg | sudo gpg --dearmor -o /usr/share/keyrings/hashicorp-archive-keyring.gpg
 echo "deb [arch=$(dpkg --print-architecture) signed-by=/usr/share/keyrings/hashicorp-archive-keyring.gpg] https://apt.releases.hashicorp.com $(lsb_release -cs) main" | sudo tee /etc/apt/sources.list.d/hashicorp.list
 
+# # prepare terramate
+# echo "deb [trusted=yes] https://repo.terramate.io/apt/ /" | sudo tee /etc/apt/sources.list.d/terramate.list
+
 # install
 sudo apt-get update
 sudo apt-get install azure-cli azcopy kubectl expect terraform=1.10.4-\* packer powershell
 
 # install terramate
-TERRAMATE_VERSION="0.11.4"
+TERRAMATE_VERSION="0.13.0"
 TERRAMATE_ARCHIVE="terramate_${TERRAMATE_VERSION}_linux_x86_64.tar.gz"
 curl -L "https://github.com/terramate-io/terramate/releases/download/v${TERRAMATE_VERSION}/${TERRAMATE_ARCHIVE}" | tar xz -C "$HOME/.local/bin" terramate
 
@@ -111,6 +114,8 @@ complete -o default -F __start_kubectl k
 _APPEND
 
 tsh --completion-script-bash >"$HOME/${BASH_CMPL_DIR}/tsh"
+
+echo "complete -C $HOME/.local/bin/terramate terramate" >>"$HOME/${BASH_CMPL_DIR}/terramate"
 
 # Docker domain name resolution
 HOST_DOCKER_INTERNAL=$(ip -j addr show docker0 | jq -r .[0].addr_info.[0].local)
