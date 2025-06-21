@@ -2,7 +2,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
-((${custom.teleport} )($kubernetes )($azure)\n)\
+((${custom.ke})($azure)($kubernetes)(${custom.https_proxy} )\n)\
 $hostname\
 $directory\
 $python\
@@ -50,16 +50,22 @@ format = '[$symbol$subscription ]($style)'
 symbol = '󰠅 '
 style = 'bold blue'
 
-[custom.teleport]
-command = "echo -n $TSH_PROXY $HTTPS_PROXY_PORT"
-when = ''' test $HTTPS_PROXY != "" '''
+[custom.ke]
+when = 'test -v SUFFIX'
+command = "echo -n $SUFFIX"
 style = 'fg:#eb34e8'
-symbol = '⚙ '
+symbol = '◈ '
+format = '[$symbol$output ]($style)'
+
+[custom.https_proxy]
+when = 'test -v HTTPS_PROXY'
+style = 'fg:#eb34e8'
+symbol = '⇄ '
 format = '[$symbol$output ]($style)'
 
 [kubernetes]
 disabled = false
-format = '[$symbol$context](bold yellow)[(:$namespace)](fg:#f5e042)'
+format = '[$symbol](bold yellow)[(:$namespace)](fg:#f5e042)'
 
 [git_branch]
 style = 'fg:green'
