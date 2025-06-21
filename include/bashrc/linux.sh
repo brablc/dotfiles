@@ -1,3 +1,5 @@
+# shellcheck disable=SC1090
+
 if [ -d /home/linuxbrew ]; then
   export HOMEBREW_NO_AUTO_UPDATE=1
   export HOMEBREW_NO_INSTALL_CLEANUP=1
@@ -11,8 +13,8 @@ alias pbcopy='xclip -selection clipboard'
 alias pbpaste='xclip -selection clipboard -o'
 alias mc='source /usr/lib/mc/mc-wrapper.sh -d'
 
-source /usr/share/doc/fzf/examples/key-bindings.bash
+test -f /usr/share/doc/fzf/examples/key-bindings.bash && source "$_"
 # link from /home/linuxbrew/.linuxbrew}/etc/bash_completion.d/  manually to $HOME/.local/share/bash-completion/completions
 # see available: find {/usr/share,$HOME/.local/share}/bash-completion/completions | sort
-source /usr/share/bash-completion/bash_completion
-source /usr/share/bash-completion/completions/fzf
+test -f /usr/share/bash-completion/bash_completion && source "$_"
+test -f /usr/share/bash-completion/completions/fzf && source "$_"
