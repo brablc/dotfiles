@@ -4,6 +4,7 @@
 
 brew tap hashicorp/tap
 brew install \
+  hcl2json \
   yq \
   node \
   python@3.10 \
@@ -11,7 +12,6 @@ brew install \
   python@3.12 \
   conftest \
   cosign \
-  fluxcd/tap/flux \
   helm \
   kustomize \
   oras \
@@ -42,11 +42,13 @@ Signed-by: /etc/apt/keyrings/microsoft.gpg" | sudo tee /etc/apt/sources.list.d/a
 
 curl -fsSLO https://github.com/Azure/azure-dev/releases/download/azure-dev-cli_1.11.1/azd_1.11.1_amd64.deb
 sudo apt-get install ./azd_1.11.1_amd64.deb -y
-
 ## prepare azcopy
 curl -sLSO https://packages.microsoft.com/config/ubuntu/24.04/packages-microsoft-prod.deb
 sudo dpkg -i ./packages-microsoft-prod.deb
 rm -f ./packages-microsoft-prod.deb
+
+## flux
+curl -fsSL https://github.com/fluxcd/flux2/releases/download/v2.6.2/flux_2.6.2_linux_amd64.tar.gz | tar xzf - -C $HOME/.local/bin/
 
 # prepare kubectl
 curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.31/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg

@@ -9,8 +9,6 @@ fi
 # If not running interactively, don't do anything slow
 [ -z "$PS1" ] && return
 
-alias pbcopy='xclip -selection clipboard'
-alias pbpaste='xclip -selection clipboard -o'
 alias mc='source /usr/lib/mc/mc-wrapper.sh -d'
 
 test -f /usr/share/doc/fzf/examples/key-bindings.bash && source "$_"

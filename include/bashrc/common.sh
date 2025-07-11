@@ -19,6 +19,8 @@ shopt -s histappend
 alias hn="history -n"
 alias hdn="export HISTFILE=/dev/null"
 
+[[ -n "$(find "$HISTFILE" -mmin +120)" ]] && install -m 600 <(gzip <"$HISTFILE") "$HISTFILE.$(date +%w).gz"
+
 eval "$(zoxide init bash --hook prompt)"
 
 # File system
@@ -33,16 +35,18 @@ alias gcd='cd $(git rev-parse --show-toplevel)'
 # alias cd='z'
 
 # Tools
-alias n='nvim'
-alias g='git'
-alias d='docker'
-alias r='rails'
 alias bat='batcat'
-alias lzg='lazygit'
+alias c="column -s $'\t' -t"
+alias d='docker'
+alias g='git'
+alias k='kubectl'
 alias lzd='lazydocker'
+alias lzg='lazygit'
+alias n='nvim'
+alias r='rails'
 
 function h() {
-  source ~/.local/bin/h.sh
+  source "$HOME/.local/bin/h.sh"
   hhighlighter "$@"
 }
 
@@ -51,7 +55,7 @@ function clp() {
 }
 
 # Completion
-function nvimw() {
+function nw() {
   if [[ -f $1 ]]; then
     nvim "$1"
   else
@@ -59,25 +63,23 @@ function nvimw() {
   fi
 }
 
-function _nvimw {
-  local cur prev opts
+function _nw {
+  local cur opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
-  prev="${COMP_WORDS[COMP_CWORD - 1]}"
 
-  COMPREPLY=($(compgen -c -- ${cur}))
+  readarray -t COMPREPLY < <(compgen -c -- "${cur}")
   return 0
 }
-complete -F _nvimw nvimw
+complete -F _nw nw
 
 function _ssh {
-  local cur prev opts
+  local cur opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
-  prev="${COMP_WORDS[COMP_CWORD - 1]}"
   opts=$(<~/.ssh/config perl -lane 'if (/Host(?:Name)? (.*)/) { $_=$1; s/ /\n/g; print;}' | sort -u)
 
-  COMPREPLY=($(compgen -W "$opts" -- ${cur}))
+  readarray -t COMPREPLY < <(compgen -W "$opts" -- "${cur}")
   return 0
 }
 complete -F _ssh ssh
