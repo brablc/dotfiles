@@ -4,23 +4,29 @@
 
 brew tap hashicorp/tap
 brew install \
+  cdebug \
+  conftest \
+  cosign \
+  editorconfig-checker \
+  hashicorp/tap/vault \
   hcl2json \
-  yq \
+  helm \
+  kubeconform \
+  kustomize \
+  lazysql \
   node \
+  oras \
   python@3.10 \
   python@3.11 \
   python@3.12 \
-  conftest \
-  cosign \
-  helm \
-  kustomize \
-  oras \
   terraform-docs \
   tflint \
-  hashicorp/tap/vault \
+  yq \
   vcluster
 
 sudo mkdir -p /etc/apt/keyrings
+
+pipx install --pip-args="--extra-index-url=https://pure-artifactory.dev.purestorage.com/artifactory/api/pypi/fa-krypton-pypi/simple" kryptonctl
 
 ## teleport
 # - https://purestorage-saas.teleport.sh/web/downloads

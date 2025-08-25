@@ -19,7 +19,7 @@ shopt -s histappend
 alias hn="history -n"
 alias hdn="export HISTFILE=/dev/null"
 
-[[ -n "$(find "$HISTFILE" -mmin +120)" ]] && install -m 600 <(gzip <"$HISTFILE") "$HISTFILE.$(date +%w).gz"
+[[ -n "$(find "$HISTFILE" -mmin +120)" ]] && install -m 600 <(sponge <"$HISTFILE" | gzip) "$HISTFILE.$(date +%w).gz"
 
 eval "$(zoxide init bash --hook prompt)"
 

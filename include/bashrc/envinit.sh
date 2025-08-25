@@ -23,6 +23,10 @@ function envinit() {
     ENVINIT_DIR=$PWD
     source .venv/bin/activate
     envinit_log ".venv"
+  elif [[ -d venv ]]; then
+    ENVINIT_DIR=$PWD
+    source venv/bin/activate
+    envinit_log "venv"
   fi
 }
 

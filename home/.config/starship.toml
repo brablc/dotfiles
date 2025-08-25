@@ -23,7 +23,7 @@ $jobs\
 $battery\
 $time\
 $line_break\
-((${custom.ke})($azure)($kubernetes)(${custom.https_proxy})\n)\
+((${custom.kshell})($azure)($kubernetes)(${custom.https_proxy})\n)\
 $status\
 $os\
 $container\
@@ -50,9 +50,9 @@ format = '[$symbol$subscription ]($style)'
 symbol = '󰠅 '
 style = 'bold blue'
 
-[custom.ke]
-when = 'test -v DEPLOYMENT'
-command = "echo -n $DEPLOYMENT"
+[custom.kshell]
+when = 'test -v KS_DEPLOYMENT'
+command = "echo -n $KS_DEPLOYMENT"
 style = 'fg:#eb34e8'
 symbol = '◈ '
 format = '[$symbol$output ]($style)'
