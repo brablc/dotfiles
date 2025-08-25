@@ -80,6 +80,13 @@ format = '[$all_status$ahead_behind]($style)'
 format = '[$symbol$version](bold cyan)'
 symbol = '🐹 '
 
+[shell]
+disabled = false
+format = '[$indicator]($style)'
+bash_indicator = 'β'
+zsh_indicator = 'ζ'
+style = 'fg:#666666'
+
 [character]
 success_symbol = "[➜](bold green)"
 

@@ -11,6 +11,8 @@ fi
 
 alias mc='source /usr/lib/mc/mc-wrapper.sh -d'
 
+[[ -n $ZSH_VERSION ]] && return 0
+
 test -f /usr/share/doc/fzf/examples/key-bindings.bash && source "$_"
 # link from /home/linuxbrew/.linuxbrew}/etc/bash_completion.d/  manually to $HOME/.local/share/bash-completion/completions
 # see available: find {/usr/share,$HOME/.local/share}/bash-completion/completions | sort

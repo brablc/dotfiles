@@ -9,18 +9,6 @@ export VIEWER="view"
 # If not running interactively, don't do anything slow
 [ -z "$PS1" ] && return
 
-export HISTTIMEFORMAT="%Y-%m-%d %T "
-export HISTFILESIZE=
-export HISTSIZE=
-export HISTCONTROL=ignoredups
-export HISTIGNORE="[ ]*"
-PROMPT_COMMAND="history -a"
-shopt -s histappend
-alias hn="history -n"
-alias hdn="export HISTFILE=/dev/null"
-
-[[ -n "$(find "$HISTFILE" -mmin +120)" ]] && install -m 600 <(sponge <"$HISTFILE" | gzip) "$HISTFILE.$(date +%w).gz"
-
 eval "$(zoxide init bash --hook prompt)"
 
 # File system
@@ -31,8 +19,6 @@ alias lta='lt -a'
 alias ff="fzf --preview 'batcat --style=numbers --color=always {}'"
 alias fd='fdfind'
 alias gcd='cd $(git rev-parse --show-toplevel)'
-
-# alias cd='z'
 
 # Tools
 alias bat='batcat'
@@ -62,6 +48,20 @@ function nw() {
     nvim "$(which "$1")"
   fi
 }
+
+[[ -n $ZSH_VERSION ]] && return 0
+
+export HISTTIMEFORMAT="%Y-%m-%d %T "
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTCONTROL=ignoredups
+export HISTIGNORE="[ ]*"
+PROMPT_COMMAND="history -a"
+shopt -s histappend
+alias hn="history -n"
+alias hdn="export HISTFILE=/dev/null"
+
+[[ -n "$(find "$HISTFILE" -mmin +120)" ]] && install -m 600 <(sponge <"$HISTFILE" | gzip) "$HISTFILE.$(date +%w).gz"
 
 function _nw {
   local cur opts
