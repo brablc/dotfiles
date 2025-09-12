@@ -23,10 +23,11 @@ $jobs\
 $battery\
 $time\
 $line_break\
-((${custom.kshell})($azure)($kubernetes)(${custom.https_proxy})\n)\
+((${custom.kshell_deployment})($azure)(${custom.postgres})($kubernetes)(${custom.https_proxy})\n)\
 $status\
 $os\
 $container\
+(${custom.kshell_active})\
 $shell\
 $character"""
 
@@ -50,11 +51,28 @@ format = '[$symbol$subscription ]($style)'
 symbol = '󰠅 '
 style = 'bold blue'
 
-[custom.kshell]
+[kubernetes]
+disabled = false
+format = '[$symbol](bold yellow)[(:$namespace)](fg:#f5e042)'
+
+[custom.kshell_active]
+when = 'test -v KS_DIR && ! test -v KS_DEPLOYMENT'
+style = 'fg:#eb34e8'
+symbol = 'κ'
+format = '[$symbol$output]($style)'
+
+[custom.kshell_deployment]
 when = 'test -v KS_DEPLOYMENT'
 command = "echo -n $KS_DEPLOYMENT"
 style = 'fg:#eb34e8'
 symbol = '◈ '
+format = '[$symbol$output ]($style)'
+
+[custom.postgres]
+when = 'test -v PGDATABASE'
+command = "echo -n $PGDATABASE"
+style = 'fg:#eeeeee'
+symbol = '🐘 '
 format = '[$symbol$output ]($style)'
 
 [custom.https_proxy]
@@ -62,10 +80,6 @@ when = 'test -v HTTPS_PROXY'
 style = 'fg:#eb34e8'
 symbol = '⇄ '
 format = '[$symbol$output ]($style)'
-
-[kubernetes]
-disabled = false
-format = '[$symbol](bold yellow)[(:$namespace)](fg:#f5e042)'
 
 [git_branch]
 style = 'fg:green'
@@ -83,7 +97,7 @@ symbol = '🐹 '
 [shell]
 disabled = false
 format = '[$indicator]($style)'
-bash_indicator = 'β'
+bash_indicator = ''
 zsh_indicator = 'ζ'
 style = 'fg:#666666'
 
