@@ -5,10 +5,12 @@ sudo apt install -y \
   apt-file \
   bat \
   btop \
+  expect \
   eza \
   fd-find \
   fzf \
   gh \
+  postgresql-client \
   pipx \
   plocate \
   ripgrep \
@@ -31,8 +33,8 @@ pip install lsp-tree-sitter
 pip install autotools-language-server==0.0.21
 deactivate
 
-curl -sL https://github.com/supabase-community/postgres-language-server/releases/download/0.8.1/postgrestools_x86_64-unknown-linux-gnu -o ~/.local/bin/postgrestools
-chmod +x ~/.local/bin/postgrestools
+# curl -sL https://github.com/supabase-community/postgres-language-server/releases/download/0.8.1/postgrestools_x86_64-unknown-linux-gnu -o ~/.local/bin/postgrestools
+# chmod +x ~/.local/bin/postgrestools
 
 # disable IPv6
 # echo -e "\n# Disable IPv6\nnet.ipv6.conf.all.disable_ipv6=1\nnet.ipv6.conf.default.disable_ipv6=1\nnet.ipv6.conf.lo.disable_ipv6=1" | sudo tee -a /etc/sysctl.conf
