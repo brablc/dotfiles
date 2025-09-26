@@ -64,6 +64,13 @@ curl -L "https://github.com/terramate-io/terramate/releases/download/v${TERRAMAT
 # configure tflint
 tflint --init
 
+## kubelogin - for az aks get-credentials in dev
+KUBELOGIN_ZIP=/tmp/kubelogin.zip
+curl -Ls https://github.com/Azure/kubelogin/releases/download/v0.2.10/kubelogin-linux-amd64.zip -o "$KUBELOGIN_ZIP"
+test "$HOME/.local/bin/kubelogin" && rm -fv "$_"
+unzip -j "$KUBELOGIN_ZIP" -d "$HOME/.local/bin/"
+rm -f "$KUBELOGIN_ZIP"
+
 npm install -g pajv # required by gitops
 
 # Completions
