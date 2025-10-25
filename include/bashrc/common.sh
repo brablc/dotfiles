@@ -6,6 +6,10 @@ export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
 export VIEWER="view"
 
+if [ -d "$HOME/go/bin" ]; then
+  export PATH="$PATH:$HOME/go/bin"
+fi
+
 # If not running interactively, don't do anything slow
 [ -z "$PS1" ] && return
 
@@ -30,11 +34,6 @@ alias lzd='lazydocker'
 alias lzg='lazygit'
 alias n='nvim'
 alias r='rails'
-
-function h() {
-  source "$HOME/.local/bin/h.sh"
-  hhighlighter "$@"
-}
 
 function clp() {
   printf ".%.0s\n" $(seq $LINES)
