@@ -66,4 +66,97 @@ return {
     "robbles/logstash.vim",
     ft = "logstash",
   },
+  {
+    "neovim/nvim-lspconfig",
+    optional = true,
+    opts = function(_, opts)
+      -- Ensure servers table exists
+      opts.servers = opts.servers or {}
+
+      -- Function to read VSCode YAML configuration from .vscode/settings.json
+      local function read_vscode_yaml_config()
+        local cwd = vim.fn.getcwd()
+        local vscode_settings_path = cwd .. "/.vscode/settings.json"
+
+        -- Check if .vscode/settings.json exists
+        if vim.fn.filereadable(vscode_settings_path) == 1 then
+          local ok, settings_content = pcall(function()
+            local lines = vim.fn.readfile(vscode_settings_path)
+            local content = table.concat(lines, "\n")
+            return vim.json.decode(content)
+          end)
+
+          if ok and settings_content then
+            local yaml_config = {
+              schemas = {},
+              completion = settings_content["yaml.completion"] ~= false,
+              hover = settings_content["yaml.hover"] ~= false,
+              validate = settings_content["yaml.validate"] ~= false,
+            }
+
+            -- Process yaml.schemas from VSCode settings
+            if settings_content["yaml.schemas"] then
+              for schema_path, patterns in pairs(settings_content["yaml.schemas"]) do
+                -- Convert relative schema path to absolute file URI
+                local absolute_schema_path = schema_path
+                if not schema_path:match("^https?://") and not schema_path:match("^file://") then
+                  absolute_schema_path = "file://" .. cwd .. "/" .. schema_path
+                end
+
+                -- Handle both single pattern strings and arrays of patterns
+                if type(patterns) == "string" then
+                  yaml_config.schemas[absolute_schema_path] = patterns
+                elseif type(patterns) == "table" then
+                  -- For arrays, use the first pattern (YAML LS typically expects single pattern per schema)
+                  -- Alternative: could combine patterns with | separator if needed
+                  if #patterns > 0 then
+                    yaml_config.schemas[absolute_schema_path] = patterns[1]
+                  end
+                end
+              end
+            end
+
+            return yaml_config
+          end
+        end
+
+        -- Fallback config if no VSCode settings found or parsing failed
+        return {
+          schemas = {},
+          completion = true,
+          hover = true,
+          validate = true,
+        }
+      end
+
+      -- Add helm_ls configuration
+      opts.servers.helm_ls = {
+        settings = {
+          ["helm-ls"] = {
+            logLevel = "info",
+            valuesFiles = {
+              mainValuesFile = "values.yaml",
+              lintOverlayValuesFile = "values.lint.yaml",
+              additionalValuesFilesGlobPattern = "values*.yaml",
+            },
+            helmLint = {
+              enabled = true,
+              ignoredMessages = {},
+            },
+            yamlls = {
+              enabled = true,
+              enabledForFilesGlob = "*.{yaml,yml}",
+              diagnosticsLimit = 50,
+              showDiagnosticsDirectly = false,
+              path = "yaml-language-server",
+              initTimeoutSeconds = 3,
+              config = read_vscode_yaml_config(),
+            },
+          },
+        },
+      }
+
+      return opts
+    end,
+  },
 }
