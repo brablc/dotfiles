@@ -9,6 +9,7 @@ brew install \
   editorconfig-checker \
   hcl2json \
   helm \
+  kubecolor \
   kubeconform \
   kustomize \
   lazysql \
