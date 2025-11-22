@@ -82,3 +82,11 @@ function _ssh {
   return 0
 }
 complete -F _ssh ssh
+
+if [[ -v TMUX ]]; then
+  # shellcheck disable=SC2016
+  eval "$(starship init bash --print-full-init | sed 's|starship prompt "\${ARGS\[@\]}"|starship prompt --profile tmux_prompt "\${ARGS[@]}"|g')"
+else
+  # Outside tmux: use full default configuration
+  eval "$(starship init bash)"
+fi

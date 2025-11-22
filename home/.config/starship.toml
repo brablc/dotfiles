@@ -6,29 +6,15 @@ $hostname\
 $directory\
 $python\
 ($git_branch)($git_status )\
-$terraform\
 $docker_context\
-$deno\
 $golang\
 $nodejs\
-$opa\
-$ruby\
-$aws\
-$direnv\
-$env_var\
-$custom\
-$sudo\
 $cmd_duration\
 $jobs\
-$battery\
-$time\
 $line_break\
 ((${custom.kshell_deployment})($azure)(${custom.postgres})($kubernetes)(${custom.https_proxy})\n)\
 $status\
-$os\
-$container\
 (${custom.kshell_active})\
-$shell\
 $character"""
 
 # Inserts a blank line between shell prompts
@@ -45,6 +31,7 @@ truncate_to_repo = true
 truncation_symbol = ''
 format = " [$path]($style) "
 
+# Azure and Kubernetes info restored
 [azure]
 disabled = false
 format = '[$symbol$subscription ]($style)'
@@ -80,6 +67,27 @@ when = 'test -v HTTPS_PROXY'
 style = 'fg:#eb34e8'
 symbol = '⇄ '
 format = '[$symbol$output ]($style)'
+
+[custom.tmux_sync]
+when = '[ -n "$TMUX" ]'
+command = 'tmux-starship-sync &'
+symbol = ' '
+
+[profiles]
+tmux_title = """
+(${custom.kshell_active} )\
+(${custom.kshell_deployment})($azure)(${custom.postgres})($kubernetes)(${custom.https_proxy})\
+$directory\
+$python\
+($git_branch)($git_status )\
+$golang\
+"""
+tmux_prompt = """
+${custom.tmux_sync}\
+$cmd_duration\
+$jobs\
+$status\
+$character"""
 
 [git_branch]
 style = 'fg:green'

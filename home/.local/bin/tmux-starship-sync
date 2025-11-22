@@ -1,0 +1,78 @@
+#!/bin/bash
+
+function convert_colors() {
+  # Convert ANSI color codes to tmux format using awk
+  echo "$1" | awk '
+  BEGIN {
+    # Color mapping arrays
+    colors[30] = "black"
+    colors[31] = "red"
+    colors[32] = "green"
+    colors[33] = "yellow"
+    colors[34] = "blue"
+    colors[35] = "magenta"
+    colors[36] = "cyan"
+    colors[37] = "white"
+    colors[90] = "brightblack"
+    colors[91] = "brightred"
+    colors[92] = "brightgreen"
+    colors[93] = "brightyellow"
+    colors[94] = "brightblue"
+    colors[95] = "brightmagenta"
+    colors[96] = "brightcyan"
+    colors[97] = "brightwhite"
+  }
+  {
+    # Remove starship brackets
+    gsub(/\\\[/, "")
+    gsub(/\\\]/, "")
+
+    # Convert ANSI escape sequences to tmux format
+    # Reset codes
+    gsub(/\x1b\[0?m/, "#[default]")
+
+    # Bold
+    gsub(/\x1b\[1m/, "#[bold]")
+
+    # Bold + standard colors (1;3x)
+    for (i = 30; i <= 37; i++) {
+      gsub("\x1b\\[1;" i "m", "#[bold,fg=" colors[i] "]")
+    }
+
+    # Standard and bright colors
+    for (i = 30; i <= 37; i++) {
+      gsub("\x1b\\[" i "m", "#[fg=" colors[i] "]")
+    }
+    for (i = 90; i <= 97; i++) {
+      gsub("\x1b\\[" i "m", "#[fg=" colors[i] "]")
+    }
+
+    # 256 colors (38;5;n)
+    gsub(/\x1b\[38;5;([0-9]+)m/, "#[fg=colour\\1]")
+
+    # RGB colors (38;2;r;g;b) - convert to hex
+    while (match($0, /\x1b\[38;2;([0-9]+);([0-9]+);([0-9]+)m/)) {
+      r = substr($0, RSTART + 7, RLENGTH - 8)
+      split(r, rgb, ";")
+      hex = sprintf("#[fg=#%02x%02x%02x]", rgb[1], rgb[2], rgb[3])
+      gsub(/\x1b\[38;2;[0-9]+;[0-9]+;[0-9]+m/, hex, $0)
+      break
+    }
+
+    # Clean up any remaining escape sequences
+    gsub(/\x1b\[[0-9;]*m/, "")
+
+    # Trim whitespace
+    gsub(/^[[:space:]]+|[[:space:]]+$/, "")
+
+    print
+  }'
+}
+
+starship_raw=$(starship prompt --profile tmux_title)
+starship_output=$(convert_colors "$starship_raw")
+
+# Set the pane title for the current pane only (not global)
+# First disable automatic rename for this pane, then set the title
+tmux set-option -p automatic-rename off
+tmux select-pane -T "$starship_output"

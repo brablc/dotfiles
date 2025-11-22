@@ -1,13 +1,13 @@
 # Neovim - copied from ~/.local/share/omakub/install/terminal/app-neovim.sh
 
-pushd /tmp
+pushd /tmp || exit
 wget -O nvim.tar.gz "https://github.com/neovim/neovim/releases/download/stable/nvim-linux-x86_64.tar.gz"
 tar -xf nvim.tar.gz
 sudo install nvim-linux-x86_64/bin/nvim /usr/local/bin/nvim
 sudo cp -R nvim-linux-x86_64/lib /usr/local/
 sudo cp -R nvim-linux-x86_64/share /usr/local/
 rm -rf nvim-linux-x86_64 nvim.tar.gz
-popd
+popd || exit
 
 echo "Install starship manually: curl -sS https://starship.rs/install.sh | sh"
 
@@ -29,12 +29,11 @@ sudo apt install -y \
   yq \
   zoxide
 
-curl -Ls https://github.com/zellij-org/zellij/releases/latest/download/zellij-x86_64-unknown-linux-musl.tar.gz | tar xzf - && mv -v zellij ~/.local/bin
-zellij setup --generate-completion bash >~/.local/share/bash-completion/completions/zellij
-
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 
-ln -s ${HOMEBREW_PREFIX:-/home/linuxbrew/.linuxbrew}/etc/bash_completion.d/brew "$HOME/.local/share/bash-completion/completions/"
+curl -fSsL "https://raw.githubusercontent.com/imomaliev/tmux-bash-completion/master/completions/tmux" -o "$HOME/.local/share/bash-completion/completions/tmux"
+
+ln -s "${HOMEBREW_PREFIX:-/home/linuxbrew/.linuxbrew}/etc/bash_completion.d/brew" "$HOME/.local/share/bash-completion/completions/"
 
 # Tricks for neovim
 python3.12 -m venv "$HOME/.local/share/nvim-venv"
