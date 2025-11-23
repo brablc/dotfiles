@@ -1,0 +1,15 @@
+# Starship config for full path display
+"$schema" = 'https://starship.rs/config-schema.json'
+
+add_newline = false
+format = "$directory"
+
+[directory]
+truncation_length = 0
+truncate_to_repo = true
+truncation_symbol = ''
+format = "$path"
+repo_root_format = '$path'
+before_repo_root_style = ''
+repo_root_style = ''
+style = ''

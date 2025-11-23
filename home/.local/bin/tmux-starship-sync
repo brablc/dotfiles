@@ -1,7 +1,66 @@
 #!/bin/bash
 
+LONG_RUN_SECS=5
+
+function main() {
+  local current_window_id current_pane_id is_active_window
+  current_window_id=$(tmux display-message -t "$TMUX_PANE" -p '#{window_id}')
+  current_pane_id=$(tmux display-message -t "$TMUX_PANE" -p '#{pane_id}')
+  is_active_window=$(tmux display-message -t "$TMUX_PANE" -p '#{window_active}')
+
+  # Use tmux user options to store timing info per pane
+  local timing_option="@starship-timing-${current_pane_id}"
+  local active_option="@starship-active-${current_pane_id}"
+  local previous_timing current_timestamp was_active
+
+  previous_timing=$(tmux show-option -gqv "$timing_option" 2>/dev/null || echo "")
+  was_active=$(tmux show-option -gqv "$active_option" 2>/dev/null || echo "0")
+  current_timestamp=$(date +%s)
+
+  local style='bg=default'
+
+  # If window just became active, reset timing
+  if [[ $is_active_window == "1" && $was_active == "0" ]]; then
+    echo "#t $TMUX_PANE $current_window_id - window became active, resetting timing" >&2
+    # Reset timing when window becomes active
+    tmux set-option -g "$timing_option" "$current_timestamp"
+  elif [[ $is_active_window == "1" ]]; then
+    # Window is active - always use default style
+    style='bg=default'
+    # Update timing for active window
+    tmux set-option -g "$timing_option" "$current_timestamp"
+  elif [[ -n $previous_timing ]]; then
+    # Window is not active - check timing for background indication
+    local previous_timestamp time_diff
+    previous_timestamp="$previous_timing"
+    time_diff=$((current_timestamp - previous_timestamp))
+
+    if ((time_diff > LONG_RUN_SECS)); then
+      style='bg=red'
+    fi
+  else
+    # No previous timing and not active - set initial timing
+    tmux set-option -g "$timing_option" "$current_timestamp"
+  fi
+
+  # Store current active state for next run
+  tmux set-option -g "$active_option" "$is_active_window"
+
+  # Apply window style to current window only
+  # Use -q to suppress errors if window doesn't exist
+  tmux set-window-option -qt "$current_window_id" window-status-current-style "$style" 2>/dev/null || true
+  tmux set-window-option -qt "$current_window_id" window-status-style "$style" 2>/dev/null || true
+
+  # Generate and set pane title
+  starship_raw=$(starship prompt --profile tmux_title)
+  starship_output=$(convert_colors "$starship_raw")
+
+  tmux set-option -t "$TMUX_PANE" -p automatic-rename off
+  tmux select-pane -t "$TMUX_PANE" -T "$starship_output"
+}
+
+# Convert ANSI color codes to tmux format using awk
 function convert_colors() {
-  # Convert ANSI color codes to tmux format using awk
   echo "$1" | awk '
   BEGIN {
     # Color mapping arrays
@@ -69,10 +128,4 @@ function convert_colors() {
   }'
 }
 
-starship_raw=$(starship prompt --profile tmux_title)
-starship_output=$(convert_colors "$starship_raw")
-
-# Set the pane title for the current pane only (not global)
-# First disable automatic rename for this pane, then set the title
-tmux set-option -p automatic-rename off
-tmux select-pane -T "$starship_output"
+main "$@"

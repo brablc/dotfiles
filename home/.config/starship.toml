@@ -2,6 +2,7 @@
 "$schema" = 'https://starship.rs/config-schema.json'
 
 format = """
+$cmd_duration\
 $hostname\
 $directory\
 $python\
@@ -9,7 +10,6 @@ $python\
 $docker_context\
 $golang\
 $nodejs\
-$cmd_duration\
 $jobs\
 $line_break\
 ((${custom.kshell_deployment})($azure)(${custom.postgres})($kubernetes)(${custom.https_proxy})\n)\
@@ -69,14 +69,24 @@ symbol = '⇄ '
 format = '[$symbol$output ]($style)'
 
 [custom.tmux_sync]
-when = '[ -n "$TMUX" ]'
-command = 'tmux-starship-sync &'
-symbol = ' '
+when = 'test -v TMUX'
+command = 'tmux-starship-sync &>/dev/tty'
+format = '$output'
+
+
+[custom.directory_full]
+when = 'true'
+command = 'STARSHIP_CONFIG=$HOME/.config/starship-relative-directory.toml starship prompt | sed "s/~//"'
+format = "[$output](fg:#666666)"
 
 [profiles]
 tmux_title = """
 (${custom.kshell_active} )\
-(${custom.kshell_deployment})($azure)(${custom.postgres})($kubernetes)(${custom.https_proxy})\
+(${custom.kshell_deployment})\
+($azure)\
+(${custom.postgres})\
+($kubernetes)\
+(${custom.https_proxy})\
 $directory\
 $python\
 ($git_branch)($git_status )\
@@ -85,9 +95,11 @@ $golang\
 tmux_prompt = """
 ${custom.tmux_sync}\
 $cmd_duration\
+([# ](fg:#666666).${custom.directory_full}\n)\
 $jobs\
 $status\
 $character"""
+
 
 [git_branch]
 style = 'fg:green'
@@ -110,7 +122,13 @@ zsh_indicator = 'ζ'
 style = 'fg:#666666'
 
 [character]
-success_symbol = "[➜](bold green)"
+success_symbol = "[➜](bold green) "
+error_symbol = "[➜](bold red) "
+format = "$symbol"
+
+[cmd_duration]
+min_time = 2000
+format = "[# took $duration](fg:#666666)\n"
 
 [python]
 format = '[${symbol}${pyenv_prefix}(${version} )(\($virtualenv\) )]($style)'

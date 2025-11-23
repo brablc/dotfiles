@@ -60,6 +60,8 @@ shopt -s histappend
 alias hn="history -n"
 alias hdn="export HISTFILE=/dev/null"
 
+set -o noclobber
+
 [[ -n "$(find "$HISTFILE" -mmin +120)" ]] && install -m 600 <(sponge <"$HISTFILE" | gzip) "$HISTFILE.$(date +%w).gz"
 
 function _nw {
@@ -83,10 +85,11 @@ function _ssh {
 }
 complete -F _ssh ssh
 
-if [[ -v TMUX ]]; then
-  # shellcheck disable=SC2016
-  eval "$(starship init bash --print-full-init | sed 's|starship prompt "\${ARGS\[@\]}"|starship prompt --profile tmux_prompt "\${ARGS[@]}"|g')"
-else
-  # Outside tmux: use full default configuration
-  eval "$(starship init bash)"
+if command -v starship &>/dev/null; then
+  if [[ -v TMUX ]]; then
+    # shellcheck disable=SC2016
+    eval "$(starship init bash --print-full-init | sed -E 's|(starship prompt )"|\1--profile tmux_prompt "|g')"
+  else
+    eval "$(starship init bash)"
+  fi
 fi

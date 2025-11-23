@@ -1,0 +1,27 @@
+#!/bin/bash
+
+# Clean up stale starship timing options for panes that no longer exist
+
+# Get all current pane IDs
+current_panes=$(tmux list-panes -a -F '#{pane_id}' 2>/dev/null | sort)
+
+# Get all starship options (timing and active state)
+starship_options=$(tmux show-options -g 2>/dev/null | grep '@starship-' | cut -d' ' -f1 | sort)
+
+# Remove options for panes that no longer exist
+for option in $starship_options; do
+  # Extract pane ID from option name
+  if [[ "$option" =~ @starship-timing-(.+) ]]; then
+    pane_id="${BASH_REMATCH[1]}"
+  elif [[ "$option" =~ @starship-active-(.+) ]]; then
+    pane_id="${BASH_REMATCH[1]}"
+  else
+    continue
+  fi
+
+  # Check if this pane still exists
+  if ! echo "$current_panes" | grep -q "^$pane_id$"; then
+    echo "Removing stale option $option for pane $pane_id"
+    tmux set-option -gu "$option"
+  fi
+done
