@@ -33,7 +33,17 @@ function main() {
   if [[ $dir == "$HOME" ]]; then
     window_name="~"
   fi
+  if [[ -n $window_name ]]; then
+    window_name=${dir//*/}
+  fi
+
   tmux new-window -c "$dir" -n "$window_name" "$@"
+
+  local current_window_id
+  current_window_id=$(tmux display-message -t "$TMUX_PANE" -p '#{window_id}')
+  local active_option
+  active_option="@starship-active-${current_window_id}"
+  tmux set-option -g "$active_option" "1"
 }
 
 main "$@"

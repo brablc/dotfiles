@@ -8,39 +8,37 @@ function main() {
   current_pane_id=$(tmux display-message -t "$TMUX_PANE" -p '#{pane_id}')
   is_active_window=$(tmux display-message -t "$TMUX_PANE" -p '#{window_active}')
 
-  # Use tmux user options to store timing info per pane
-  local timing_option="@starship-timing-${current_pane_id}"
-  local active_option="@starship-active-${current_pane_id}"
-  local previous_timing current_timestamp was_active
+  # Use tmux user options to store ts info per pane
+  local ts_option="@starship-ts-${current_pane_id}"
+  local active_option="@starship-active-${current_window_id}"
+  local previous_ts current_ts was_active
 
-  previous_timing=$(tmux show-option -gqv "$timing_option" 2>/dev/null || echo "")
+  previous_ts=$(tmux show-option -gqv "$ts_option" 2>/dev/null || echo "")
   was_active=$(tmux show-option -gqv "$active_option" 2>/dev/null || echo "0")
-  current_timestamp=$(date +%s)
+  current_ts=$(date +%s)
 
   local style='bg=default'
 
-  # If window just became active, reset timing
+  [[ -v TMUX_VERBOSE ]] && echo "# cur_win: $current_window_id cur_pane: $current_pane_id active: $is_active_window, was_active: $was_active, previous_ts: $previous_ts, current_ts: $current_ts"
+
+  # If window just became active, reset ts
   if [[ $is_active_window == "1" && $was_active == "0" ]]; then
-    echo "#t $TMUX_PANE $current_window_id - window became active, resetting timing" >&2
-    # Reset timing when window becomes active
-    tmux set-option -g "$timing_option" "$current_timestamp"
+    tmux set-option -g "$ts_option" "$current_ts"
   elif [[ $is_active_window == "1" ]]; then
     # Window is active - always use default style
     style='bg=default'
-    # Update timing for active window
-    tmux set-option -g "$timing_option" "$current_timestamp"
-  elif [[ -n $previous_timing ]]; then
-    # Window is not active - check timing for background indication
-    local previous_timestamp time_diff
-    previous_timestamp="$previous_timing"
-    time_diff=$((current_timestamp - previous_timestamp))
+    # Update ts for active window
+    tmux set-option -g "$ts_option" "$current_ts"
+  elif [[ -n $previous_ts ]]; then
+    # Window is not active - check ts for background indication
+    time_diff=$((current_ts - previous_ts))
 
     if ((time_diff > LONG_RUN_SECS)); then
       style='bg=red'
     fi
   else
-    # No previous timing and not active - set initial timing
-    tmux set-option -g "$timing_option" "$current_timestamp"
+    # No previous ts and not active - set initial ts
+    tmux set-option -g "$ts_option" "$current_ts"
   fi
 
   # Store current active state for next run
@@ -127,5 +125,4 @@ function convert_colors() {
     print
   }'
 }
-
 main "$@"
