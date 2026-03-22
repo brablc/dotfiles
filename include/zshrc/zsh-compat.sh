@@ -71,8 +71,3 @@ bindkey '^[[H' beginning-of-line     # Home key (terminal-specific)
 bindkey '^[[F' end-of-line          # End key (terminal-specific)
 bindkey '^[[1~' beginning-of-line    # Home key (alternative sequence)
 bindkey '^[[4~' end-of-line         # End key (alternative sequence)
-
-# Override zellij functions to use zsh instead of bash
-function zr() { zellij run --name "$*" -- zsh -ic "$*"; }
-function zrf() { zellij run --name "$*" --floating -- zsh -ic "$*"; }
-function zri() { zellij run --name "$*" --in-place -- zsh -ic "$*"; }
