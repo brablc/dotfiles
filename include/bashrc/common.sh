@@ -98,3 +98,10 @@ if command -v starship &>/dev/null; then
     eval "$(starship init bash)"
   fi
 fi
+
+if command -v kubecolor &>/dev/null; then
+  alias kubectl='kubecolor'
+  alias k='kubecolor'
+else
+  alias k='kubectl'
+fi
