@@ -83,7 +83,7 @@ function _ssh {
   local cur opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
-  opts=$(<~/.ssh/config perl -lane 'if (/Host(?:Name)? (.*)/) { $_=$1; s/ /\n/g; print;}' | sort -u)
+  opts=$(rg -I -o '^\s*Host(Name)?\b\s+(\w.*)' -r '$2' ~/.ssh/ | xargs printf "%s\n" | sort -u)
 
   readarray -t COMPREPLY < <(compgen -W "$opts" -- "${cur}")
   return 0
