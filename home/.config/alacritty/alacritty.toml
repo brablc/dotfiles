@@ -2,21 +2,5 @@
 import = [
   "~/.config/alacritty/theme.toml",
   "~/.config/alacritty/font.toml",
-  "~/.config/alacritty/font-size.toml",
+  "~/.config/alacritty/general.toml",
 ]
-
-[selection]
-save_to_clipboard = true
-
-[env]
-TERM = "xterm-256color"
-
-[terminal]
-shell.program = ".local/bin/zellij"
-
-[window]
-padding.x = 8
-padding.y = 7
-decorations = "None"
-opacity = 0.98
-option_as_alt = "Both"

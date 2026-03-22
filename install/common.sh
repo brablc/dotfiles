@@ -3,3 +3,6 @@ install -m 755 /dev/stdin "$HOME/.local/bin/h" < <(curl -s -L https://raw.github
 echo 'h "$@"' >>"$HOME/.local/bin/h"
 
 brew install lazydocker
+
+cargo install alacritty
+ln -s "$HOME/.cargo/bin/alacritty" "$HOME/.local/bin/"
