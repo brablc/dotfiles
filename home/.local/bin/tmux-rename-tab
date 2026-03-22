@@ -1,0 +1,59 @@
+#!/usr/bin/env bash
+
+set -e -u -o pipefail
+
+function main() {
+  local dir_arg="$1"
+  local suffix="${2:-}"
+
+  local dir_path="$PWD"
+  local project_root="$HOME/Projects"
+
+  if [[ -d $dir_arg ]]; then
+    dir_path="$dir_arg"
+  elif [[ -d $project_root/$dir_arg ]]; then
+    dir_path="$project_root/$dir_arg"
+  else
+    local select_name
+    # shellcheck disable=SC2010
+    select_name=$(ls -1 "$project_root" 2>/dev/null | grep -i "$dir_arg" | fzf --select-1 --exit-0 || :)
+
+    if [[ -z $select_name ]]; then
+      echo "No such dir/project matching '$dir_arg' found in $project_root" | log_color yellow
+      return 1
+    fi
+    dir_path="$project_root/$select_name"
+  fi
+
+  local window_name
+  window_name="${dir_path##*/}"
+  if [[ $dir_path == "$project_root" ]]; then
+    window_name="${project_root##*/}"
+  fi
+  if [[ $dir_path == "$HOME" ]]; then
+    window_name="~"
+  fi
+  if [[ -z $window_name ]]; then
+    window_name=${dir_path//*/}
+  fi
+  window_name="${window_name/krypton-/}"
+
+  if [[ -n $suffix ]]; then
+    window_name="${window_name}:${suffix}"
+  fi
+
+  echo "Chdir to '$dir_path' and renaming tmux window to '$window_name' ..." | log_color white
+  echo "cd '$dir_path'"
+  tmux rename-window "$window_name"
+}
+
+function log_color() {
+  rg --color=always --colors "match:fg:$1" '.*' >&2
+}
+
+if ((!$#)); then
+  echo "Usage: ${0##*/} <DIR> [POSTFIX]" | log_color red
+  exit 0
+fi
+
+main "$@"

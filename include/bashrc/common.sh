@@ -48,6 +48,11 @@ function nw() {
   fi
 }
 
+function rt() {
+  # shellcheck disable=SC1090
+  source <(tmux-rename-tab "$@")
+}
+
 [[ -n $ZSH_VERSION ]] && return 0
 
 export HISTTIMEFORMAT="%Y-%m-%d %T "
