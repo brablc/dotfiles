@@ -54,7 +54,7 @@ function main() {
   starship_output=$(convert_colors "$starship_raw")
 
   tmux set-option -t "$TMUX_PANE" -p automatic-rename off
-  tmux select-pane -t "$TMUX_PANE" -T "$starship_output"
+  tmux select-pane -t "$TMUX_PANE" -T "${starship_output//\\\$/\$}"
 }
 
 # Convert ANSI color codes to tmux format using awk

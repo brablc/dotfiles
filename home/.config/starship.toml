@@ -12,8 +12,7 @@ $golang\
 $nodejs\
 $jobs\
 $line_break\
-((${custom.kshell_deployment})($azure)(${custom.postgres})($kubernetes)(${custom.https_proxy})\n)\
-$status\
+((${custom.kshell_site})($azure)(${custom.postgres})($kubernetes)(${custom.https_proxy})\n)\
 (${custom.kshell_active})\
 $character"""
 
@@ -48,9 +47,9 @@ style = 'fg:#eb34e8'
 symbol = 'κ'
 format = '[$symbol$output]($style)'
 
-[custom.kshell_deployment]
-when = 'test -v KS_DEPLOYMENT'
-command = "echo -n $KS_DEPLOYMENT"
+[custom.kshell_site]
+when = 'test -v KS_SITE'
+command = "echo -n $KS_SITE"
 style = 'fg:#eb34e8'
 symbol = '◈ '
 format = '[$symbol$output ]($style)'
@@ -70,7 +69,7 @@ format = '[$symbol$output ]($style)'
 
 [custom.tmux_sync]
 when = 'test -v TMUX'
-command = 'tmux-starship-sync &>/dev/tty'
+command = 'tmux-starship-sync &>/dev/tty &'
 format = '$output'
 
 
@@ -82,7 +81,7 @@ format = "[$output](fg:#666666)"
 [profiles]
 tmux_title = """
 (${custom.kshell_active} )\
-(${custom.kshell_deployment})\
+(${custom.kshell_site})\
 ($azure)\
 (${custom.postgres})\
 ($kubernetes)\
@@ -97,7 +96,6 @@ ${custom.tmux_sync}\
 $cmd_duration\
 ([# ](fg:#666666).${custom.directory_full}\n)\
 $jobs\
-$status\
 $character"""
 
 
