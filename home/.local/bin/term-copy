@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+
+set -e -u -o pipefail
+
+# Copy stdin to system clipboard via OSC 52 escape sequence.
+# Works in terminals that support OSC 52 (Alacritty, iTerm2, tmux, etc.)
+
+data=$(base64 | tr -d '\n')
+
+# tmux 3.3+ with set-clipboard handles OSC 52 natively via the tty
+tty=$(tmux display -p '#{pane_tty}' 2>/dev/null) || tty=/dev/tty
+printf "\033]52;c;%s\a" "$data" > "$tty"
