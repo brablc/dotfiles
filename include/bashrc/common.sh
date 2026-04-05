@@ -1,6 +1,7 @@
 export LANG="en_US.UTF-8"
 export LC_ALL=en_US.UTF-8
 export LC_TIME="POSIX"
+export COLORTERM=truecolor
 
 export EDITOR="nvim"
 export SUDO_EDITOR="$EDITOR"
