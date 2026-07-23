@@ -94,6 +94,21 @@ function gwtprune() {
   done
 }
 
+function opssh() {
+  local key_file=$1
+  local op_name=$2
+  local tmp_file agent_env
+  tmp_file=$(mktemp)
+  agent_env=$(mktemp)
+  ssh-agent -s >|"$agent_env"
+  # shellcheck disable=SC1090
+  source "$agent_env"
+  # shellcheck disable=SC2064
+  trap "rm -f $tmp_file $agent_env; ssh-agent -k >/dev/null 2>&1" EXIT
+  printf 'op read "op://%s/password"\n' "$op_name" >|"$tmp_file"
+  chmod +x "$tmp_file"
+  SSH_ASKPASS=$tmp_file SSH_ASKPASS_REQUIRE=force ssh-add "$key_file" </dev/null
+  $SHELL
 }
 
 [[ -n $ZSH_VERSION ]] && return 0
@@ -112,7 +127,7 @@ set -o noclobber
 
 [[ -n "$(find "$HISTFILE" -mmin +120)" ]] && install -m 600 <(sponge <"$HISTFILE" | gzip) "$HISTFILE.$(date +%w).gz"
 
-function _nw {
+function _nw() {
   local cur opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
@@ -122,7 +137,7 @@ function _nw {
 }
 complete -F _nw nw
 
-function _ssh {
+function _ssh() {
   local cur opts
   COMPREPLY=()
   cur="${COMP_WORDS[COMP_CWORD]}"
