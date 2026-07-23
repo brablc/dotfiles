@@ -52,6 +52,48 @@ function rt() {
   source <(tmux-rename-tab "$@")
   unset ENVINIT_DIR
 }
+
+function gwt() {
+  local branch_leaf="$1"
+  local branch_dir="${2:-users/$USER}"
+  local path="../${PWD##*/}.${branch_leaf}"
+  local stash_output stashed
+  stash_output=$(git stash 2>&1)
+  stashed=$([[ $stash_output == *"No local changes"* ]] && echo 0 || echo 1)
+  git worktree add -b "$branch_dir/$branch_leaf" "$path"
+  cd "$path" || :
+  [[ $stashed -eq 1 ]] && git stash pop
+  unset ENVINIT_DIR
+}
+
+function gwtprune() {
+  # Snapshot origin/* tips before --prune deletes them, so the unpushed check
+  # below still sees commits that were pushed to a now-deleted remote branch.
+  local pre_origin
+  pre_origin=$(git for-each-ref --format='%(objectname)' refs/remotes/origin/)
+  git fetch --prune
+  local main_wt
+  main_wt=$(git worktree list --porcelain | awk '/^worktree / { print substr($0, 10); exit }')
+  git worktree list --porcelain | awk '
+    /^worktree / { wt = substr($0, 10) }
+    /^branch /   { print wt "\t" substr($0, 19) }
+  ' | while IFS=$'\t' read -r wt branch; do
+    [[ $wt == "$main_wt" ]] && continue
+    [[ $wt == "$PWD" ]] && {
+      echo "skip $wt (current dir)"
+      continue
+    }
+    git show-ref --verify --quiet "refs/remotes/origin/$branch" && continue
+    # shellcheck disable=SC2086
+    if [[ -n "$(git rev-list "$branch" --not --remotes=origin $pre_origin --max-count=1 2>/dev/null)" ]]; then
+      echo "skip $wt ($branch) — unpushed commits"
+      continue
+    fi
+    echo "removing $wt ($branch)"
+    git worktree remove "$wt" && git branch -D "$branch"
+  done
+}
+
 }
 
 [[ -n $ZSH_VERSION ]] && return 0
