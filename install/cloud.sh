@@ -58,7 +58,7 @@ sudo apt-get install \
 curl -fsSL https://github.com/fluxcd/flux2/releases/download/v2.6.2/flux_2.6.2_linux_amd64.tar.gz | tar xzf - -C "$HOME/.local/bin/"
 
 # install terramate
-TERRAMATE_VERSION="0.13.0"
+TERRAMATE_VERSION="0.14.6"
 TERRAMATE_ARCHIVE="terramate_${TERRAMATE_VERSION}_linux_x86_64.tar.gz"
 curl -L "https://github.com/terramate-io/terramate/releases/download/v${TERRAMATE_VERSION}/${TERRAMATE_ARCHIVE}" | tar xz -C "$HOME/.local/bin" terramate
 
