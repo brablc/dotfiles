@@ -14,8 +14,6 @@ fi
 # If not running interactively, don't do anything slow
 [ -z "$PS1" ] && return
 
-eval "$(zoxide init bash --hook prompt)"
-
 # File system
 alias ll='eza -lh --group-directories-first --icons'
 alias la='ll -a'
@@ -52,6 +50,8 @@ function nw() {
 function rt() {
   # shellcheck disable=SC1090
   source <(tmux-rename-tab "$@")
+  unset ENVINIT_DIR
+}
 }
 
 [[ -n $ZSH_VERSION ]] && return 0
@@ -61,7 +61,7 @@ export HISTFILESIZE=
 export HISTSIZE=
 export HISTCONTROL=ignoredups
 export HISTIGNORE="[ ]*"
-PROMPT_COMMAND="history -a"
+PROMPT_COMMAND="history -a;$PROMPT_COMMAND"
 shopt -s histappend
 alias hn="history -n"
 alias hdn="export HISTFILE=/dev/null"
@@ -90,6 +90,8 @@ function _ssh {
   return 0
 }
 complete -F _ssh ssh
+
+eval "$(zoxide init bash --hook prompt)"
 
 if command -v starship &>/dev/null; then
   if [[ -v TMUX ]]; then
