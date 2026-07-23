@@ -34,7 +34,7 @@ function main() {
     time_diff=$((current_ts - previous_ts))
 
     if ((time_diff > LONG_RUN_SECS)); then
-      style='bg=red'
+      style='bg=green'
     fi
   else
     # No previous ts and not active - set initial ts
